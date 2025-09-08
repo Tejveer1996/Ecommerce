@@ -1,7 +1,7 @@
 package dev.Tejveer.EcomPaymentService.Controller;
 
 import dev.Tejveer.EcomPaymentService.DTO.PaymentRequestDTO;
-import dev.Tejveer.EcomPaymentService.Service.PaymentService;
+import dev.Tejveer.EcomPaymentService.Service.IPaymentService;
 import com.razorpay.RazorpayException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
     @Autowired
-    private PaymentService paymentService;
+    private IPaymentService paymentService;
 
     @PostMapping("/payment")
     public ResponseEntity<String> doPayment(@RequestBody PaymentRequestDTO paymentRequestDTO) throws RazorpayException {

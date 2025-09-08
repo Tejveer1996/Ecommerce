@@ -12,7 +12,7 @@
 
     <modules>
         <module>EcomOrderService</module>
-        <module>EcomOrderService</module>
+        <module>EcomUserAuthService</module>
         <module>EcomPaymentService</module>
         <module>EcomProductService</module>
     </modules>

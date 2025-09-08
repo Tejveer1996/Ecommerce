@@ -1,4 +1,4 @@
-package org.example;
+package dev.tejveer.EcomOrderService;
 
 public class Main {
     public static void main(String[] args) {
