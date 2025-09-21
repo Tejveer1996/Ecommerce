@@ -4,7 +4,7 @@ import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.PaymentDTO;
-import dev.tejveer.EcomOrderService.Service.service.OrderService;
+import dev.tejveer.EcomOrderService.Impl.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

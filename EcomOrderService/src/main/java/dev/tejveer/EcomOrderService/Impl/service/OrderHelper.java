@@ -1,10 +1,9 @@
-package dev.tejveer.EcomOrderService.Service.service;
+package dev.tejveer.EcomOrderService.Impl.service;
 
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
-import dev.tejveer.EcomOrderService.DTO.OrderResponseDTO;
 import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
-import dev.tejveer.EcomOrderService.Service.dao.OrderDAO;
+import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
 
 import java.util.stream.Collectors;
 

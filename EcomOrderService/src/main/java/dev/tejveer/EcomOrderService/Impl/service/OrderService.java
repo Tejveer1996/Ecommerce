@@ -1,4 +1,4 @@
-package dev.tejveer.EcomOrderService.Service.service;
+package dev.tejveer.EcomOrderService.Impl.service;
 
 import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
@@ -10,8 +10,8 @@ import dev.tejveer.EcomOrderService.Exception.OrderNotFoundException;
 import dev.tejveer.EcomOrderService.Exception.UpdateOrderException;
 import dev.tejveer.EcomOrderService.Interface.IOrderService;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
-import dev.tejveer.EcomOrderService.Service.dao.OrderDAO;
-import dev.tejveer.EcomOrderService.Service.dao.PaymentDAO;
+import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
+import dev.tejveer.EcomOrderService.Impl.dao.PaymentDAO;
 import dev.tejveer.EcomOrderService.Store.OrderStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

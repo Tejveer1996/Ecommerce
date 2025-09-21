@@ -1,4 +1,4 @@
-package dev.tejveer.EcomOrderService.Service.dao;
+package dev.tejveer.EcomOrderService.Impl.dao;
 
 import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;

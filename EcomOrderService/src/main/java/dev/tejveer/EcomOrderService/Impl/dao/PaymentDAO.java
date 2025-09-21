@@ -1,6 +1,5 @@
-package dev.tejveer.EcomOrderService.Service.dao;
+package dev.tejveer.EcomOrderService.Impl.dao;
 
-import dev.tejveer.EcomOrderService.Model.PaymentStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
