@@ -1,6 +1,5 @@
 package dev.tejveer.EcomOrderService.DTO;
 
-import dev.tejveer.EcomOrderService.Entity.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,13 +7,9 @@ import java.util.List;
 
 @Data
 @Builder
-public class OrderDAO {
-    private String orderId;
+public class OrderRequestDTO {
     private String userId;
     private List<Item> orderItems;
-    private OrderStatus orderStatus;
-    private String transactionId;
-    private Double totalAmount;
 
     @Data
     @Builder
