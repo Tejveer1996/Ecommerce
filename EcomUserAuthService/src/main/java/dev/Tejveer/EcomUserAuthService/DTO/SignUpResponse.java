@@ -11,17 +11,17 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class SignUpResponseDTO {
+public class SignUpResponse {
     private String id;
     private String name;
     private String email;
     private List<Roles> roles;
 
-    public static SignUpResponseDTO fromUser(User user) {
+    public static SignUpResponse fromUser(User user) {
         if (user == null) {
             return null;
         }
-        return SignUpResponseDTO.builder()
+        return SignUpResponse.builder()
                 .id(user.getId().toString())
                 .email(user.getEmail())
                 .name(user.getName())

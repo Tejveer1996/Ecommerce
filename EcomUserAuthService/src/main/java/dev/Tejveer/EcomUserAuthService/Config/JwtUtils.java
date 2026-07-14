@@ -1,6 +1,7 @@
 package dev.Tejveer.EcomUserAuthService.Config;
 
 import dev.Tejveer.EcomUserAuthService.DTO.TokenDetails;
+import dev.Tejveer.EcomUserAuthService.Entity.Roles;
 import dev.Tejveer.EcomUserAuthService.Entity.User;
 import dev.Tejveer.EcomUserAuthService.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Email is used as username
@@ -41,7 +43,7 @@ public class JwtUtils {
     public TokenDetails generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
-        claims.put("roles", user.getRoles().toString());
+        claims.put("roles", user.getRoles().stream().map(Roles::name).collect(Collectors.toList()));
         return createToken(claims, user.getId().toString());
     }
 
@@ -127,7 +129,7 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith((SecretKey) getSignKey())
                 .build()

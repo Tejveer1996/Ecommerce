@@ -1,6 +1,8 @@
 package dev.Tejveer.EcomUserAuthService.Config;
 
+import dev.Tejveer.EcomUserAuthService.Entity.Roles;
 import dev.Tejveer.EcomUserAuthService.Service.Implementation.CustomerDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +35,17 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, PUBLIC_URLs).permitAll()
+                        .requestMatchers("/update/role/{userId}").hasAnyRole(String.valueOf(Roles.ADMIN))
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(
+                        (request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{Message : Not Authenticated }");
+                        })
+                )
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package dev.Tejveer.EcomUserAuthService.DTO;
 
+import dev.Tejveer.EcomUserAuthService.Entity.AddressType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +9,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RefreshTokenRequestDto {
-    String refreshToken;
+public class AddressResponseDTO {
+    UUID id;
+    String address;
+    String city;
+    String state;
+    String country;
+    String postalCode;
+    AddressType addressType;
+    boolean isDefault;
 }

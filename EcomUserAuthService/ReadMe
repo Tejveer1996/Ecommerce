@@ -1,0 +1,8 @@
+UserController:
+	{POST [/user/signup]}: signUp(SignupRequest)
+	{POST [/user/token]}: refreshToken(RefreshTokenRequest)
+	{POST [/user/login]}: login(LoginRequest,HttpServletResponse)
+	{PUT [/user/create/seller]}: createSeller(CreateSellerProfileRequest)
+	{GET [/user/me]}: getUserProfile()
+	{PUT [/user/update/me]}: updateUserProfile(UpdateUserProfileRequest)
+	{PUT [/user/update/role/{userId}]}: updateRole(String)
