@@ -9,6 +9,7 @@ import dev.tejveer.EcomOrderService.Impl.dao.PaymentDAO;
 import dev.tejveer.EcomOrderService.Utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Type;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Component
 public class OrderStore {
     private DataSource dataSource;
 

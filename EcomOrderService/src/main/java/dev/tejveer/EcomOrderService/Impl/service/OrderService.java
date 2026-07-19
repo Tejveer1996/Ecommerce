@@ -19,7 +19,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService implements IOrderService {
     @Autowired
-    private OrderStore orderStore;
+    private final OrderStore orderStore;
+
+    public OrderService(OrderStore orderStore) {
+        this.orderStore = orderStore;
+    }
 
     public OrderResponseDTO createOrder(OrderRequestDTO orderDTO) throws CreateOrderException {
         OrderDAO orderDAO = OrderHelper.mapFromOrderRequestToOrderDao(orderDTO);

@@ -84,7 +84,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update/role/{userId}")
+    @PutMapping("/update/role/user-seller/{userId}")
     public ResponseEntity updateRole(@PathVariable String userId) throws SellerNotVerifiedException, ResourceNotFoundException {
         try {
             boolean updated = userService.updateRoleFromUserToSeller(userId);

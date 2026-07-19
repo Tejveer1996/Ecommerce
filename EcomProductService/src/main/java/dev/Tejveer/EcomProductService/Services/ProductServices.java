@@ -1,14 +1,31 @@
 package dev.Tejveer.EcomProductService.Services;
 
-import dev.Tejveer.EcomProductService.DTO.FakeStoreProductResponseDTO;
-import dev.Tejveer.EcomProductService.Entity.Product;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
+import dev.Tejveer.EcomProductService.Entity.ProductFilter;
+import dev.Tejveer.EcomProductService.Exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.UUID;
 
 public interface ProductServices {
-    List<FakeStoreProductResponseDTO> getAllProducts();
-    FakeStoreProductResponseDTO getProduct(int productId);
-    Product createProduct(Product product);
-    Product updateProduct(Product product, int productId);
-    boolean deleteProduct(int productId);
+    // CRUD Operation methods on products
+    ProductResponse addProduct(ProductAddRequest productAddRequest) throws ResourceNotFoundException;
+
+    ProductResponse updateProduct(ProductUpdateRequest updateRequest) throws ResourceNotFoundException;
+
+    boolean deleteProduct(UUID productId) throws ResourceNotFoundException;
+
+    ProductResponse getProductById(UUID productId) throws ResourceNotFoundException;
+
+    /**
+     * List of products through pagination, by using pageable concept of JPA
+     */
+    Page<ProductResponse> getAllProducts(Pageable pageable);
+
+    Page<ProductResponse> getFilterProducts(Pageable pageable, ProductFilter filter);
+
+    Page<ProductResponse> keywordSearch(Pageable pageable, String keyword);
 }
