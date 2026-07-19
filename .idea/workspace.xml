@@ -5,6 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a706fd88-1c57-4009-b438-2e535bd006f6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/EcomOrderServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Advice/ApiError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Advice/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryCreateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryTreeResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductAddRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/CurrencyType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductAttribute.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductImage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/ResourceNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ProductSpecification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/java/dev/tejveer/discovery_service/DiscoveryServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/test/java/dev/tejveer/discovery_service/DiscoveryServiceApplicationTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Ecommerce Project.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
