@@ -5,86 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a706fd88-1c57-4009-b438-2e535bd006f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/EcomOrderServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Advice/ApiError.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Advice/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryCreateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryTreeResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductAddRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductUpdateRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/CurrencyType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductAttribute.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductImage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/ProductStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/ResourceNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/CategoryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ProductSpecification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/java/dev/tejveer/discovery_service/DiscoveryServiceApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-service/src/test/java/dev/tejveer/discovery_service/DiscoveryServiceApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Ecommerce Project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Impl/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Impl/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Store/OrderStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Store/OrderStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/resources/schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomPaymentService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomPaymentService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomPaymentService/src/main/java/dev/Tejveer/EcomPaymentService/EcomPaymentServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomPaymentService/src/main/java/dev/Tejveer/EcomPaymentService/EcomPaymentServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomPaymentService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomPaymentService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Client/FakeStoreClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/CartController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/ExceptionResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/FakeStoreCartDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/FakeStoreProductRatingDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/FakeStoreProductResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/ProductQuantityDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/ProductResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/CartControllerException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/CartNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/InvalidProductIdException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/ProductNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/ProductServiceException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Exception/RandomException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Mapper/ProductEntityDtoMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/FakeStoreProductServices.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/ProductServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Repository/CategoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/ProductServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/ProductServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ecommerce-project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,15 +46,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Dushyant Sharma/Ecommerce Project/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dushyant Sharma/Ecommerce Project/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomProductService\src\main\java\dev\Tejveer\EcomProductService\DTO" />

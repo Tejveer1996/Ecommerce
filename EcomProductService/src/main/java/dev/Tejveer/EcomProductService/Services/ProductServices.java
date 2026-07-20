@@ -14,9 +14,9 @@ public interface ProductServices {
     // CRUD Operation methods on products
     ProductResponse addProduct(ProductAddRequest productAddRequest) throws ResourceNotFoundException;
 
-    ProductResponse updateProduct(ProductUpdateRequest updateRequest) throws ResourceNotFoundException;
+    ProductResponse updateProduct(ProductUpdateRequest updateRequest, UUID sellerId) throws ResourceNotFoundException;
 
-    boolean deleteProduct(UUID productId) throws ResourceNotFoundException;
+    boolean deleteProduct(UUID productId, UUID sellerId) throws ResourceNotFoundException;
 
     ProductResponse getProductById(UUID productId) throws ResourceNotFoundException;
 

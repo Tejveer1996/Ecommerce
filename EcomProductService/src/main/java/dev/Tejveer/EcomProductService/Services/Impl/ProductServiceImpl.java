@@ -47,9 +47,13 @@ public class ProductServiceImpl implements ProductServices {
     }
 
     @Override
-    public ProductResponse updateProduct(ProductUpdateRequest updateRequest) throws ResourceNotFoundException {
+    public ProductResponse updateProduct(ProductUpdateRequest updateRequest, UUID sellerId) throws ResourceNotFoundException {
         Product product = productRepository.findById(updateRequest.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        if (product.getSellerId().equals(sellerId)) {
+            throw new IllegalAccessError("Given seller is not allowed to delete this product");
+        }
 
         if (updateRequest.getName() != null) {
             product.setName(updateRequest.getName());
@@ -89,9 +93,12 @@ public class ProductServiceImpl implements ProductServices {
     }
 
     @Override
-    public boolean deleteProduct(UUID productId) throws ResourceNotFoundException {
+    public boolean deleteProduct(UUID productId, UUID sellerId) throws ResourceNotFoundException {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (product.getSellerId().equals(sellerId)) {
+            throw new IllegalAccessError("Given seller is not allowed to delete this product");
+        }
         productRepository.delete(product);
         return true;
     }

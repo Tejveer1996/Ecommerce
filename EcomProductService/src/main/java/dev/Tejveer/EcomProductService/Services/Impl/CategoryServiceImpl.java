@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -100,8 +101,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public List<CategoryTreeResponse> getCategoryTree() {
-        List<Category> rootCategories = categoryRepository.findByParentCategoryIdIsNull();
+    public List<CategoryTreeResponse> getCategoryTree(Pageable pageable) {
+        List<Category> rootCategories = categoryRepository.findByParentCategoryIdIsNull(pageable);
 
         List<CategoryTreeResponse> response = new ArrayList<>();
 
