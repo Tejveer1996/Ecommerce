@@ -36,7 +36,7 @@ public class ProductImageController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> addImage(@Valid @RequestBody ProductImageAddRequest request) {
         try {
             ProductImageResponse response = productImageService.addImage(request);
@@ -48,7 +48,7 @@ public class ProductImageController {
     }
 
     @PostMapping("/batch")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ProductImageResponse>> addImages(
             @Valid @RequestBody List<ProductImageAddRequest> requests) {
         try {
@@ -61,7 +61,7 @@ public class ProductImageController {
     }
 
     @DeleteMapping("/{imageId}")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<Void> deleteImage(@PathVariable UUID imageId) {
         try {
             productImageService.deleteImage(imageId);
@@ -84,7 +84,7 @@ public class ProductImageController {
     }
 
     @PatchMapping("/product/{productId}/primary/{imageId}")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> setPrimaryImage(
             @PathVariable UUID productId,
             @PathVariable UUID imageId) {
@@ -98,7 +98,7 @@ public class ProductImageController {
     }
 
     @PatchMapping("/product/{productId}/thumbnail/{imageId}")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> setThumbnailImage(
             @PathVariable UUID productId,
             @PathVariable UUID imageId) {
@@ -112,7 +112,7 @@ public class ProductImageController {
     }
 
     @PutMapping("/product/{productId}/reorder")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ProductImageResponse>> reorderImages(
             @PathVariable UUID productId,
             @RequestBody List<UUID> orderedImageIds) {

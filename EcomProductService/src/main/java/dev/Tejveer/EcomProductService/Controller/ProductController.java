@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductAddRequest request) {
         try {
             UUID sellerId = getCurrentSellerId();
@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductUpdateRequest request) {
         try {
             UUID sellerId = getCurrentSellerId();
@@ -66,7 +66,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    @PreAuthorize("hasAuthority('SELLER')")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<String> deleteProduct(@PathVariable UUID productId) {
         try {
             UUID sellerId = getCurrentSellerId();
