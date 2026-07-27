@@ -5,16 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a706fd88-1c57-4009-b438-2e535bd006f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtAuthFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/AddressRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/CategoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductImageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/ProductImageController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductAddRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Product/ProductAddRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/ProductServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/ProductServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/CreateSellerProfileRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/CreateSellerProfileRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/UserProfileResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/UserProfileResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Implementation/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Implementation/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Interface/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Interface/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +71,7 @@
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomProductService\src\main\java\dev\Tejveer\EcomProductService\DTO" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.Tejveer.EcomUserAuthService.Config" />
       <recent name="dev.Tejveer.EcomProductService.Exception" />
       <recent name="dev.Tejveer.EcomProductService.Advice" />
     </key>
@@ -74,7 +83,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EcomOrderServiceApplication">
+  <component name="RunManager" selected="Application.EcomUserAuthServiceApplication">
     <configuration name="DiscoveryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dev.tejveer.discovery_service.DiscoveryServiceApplication" />
       <module name="discovery-service" />
@@ -129,10 +138,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.EcomOrderServiceApplication" />
         <item itemvalue="Application.EcomUserAuthServiceApplication" />
         <item itemvalue="Application.EcomProductServiceApplication" />
         <item itemvalue="Application.DiscoveryServiceApplication" />
+        <item itemvalue="Application.EcomOrderServiceApplication" />
       </list>
     </recent_temporary>
   </component>

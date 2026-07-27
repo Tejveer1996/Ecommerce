@@ -32,7 +32,4 @@ public class UserProfileResponse {
     String createdAt;
 
     List<AddressResponseDTO> addresses = new ArrayList<>();
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    SellerProfileResponse sellerProfile;
 }

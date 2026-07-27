@@ -13,9 +13,15 @@ import dev.Tejveer.EcomUserAuthService.Entity.User;
 import dev.Tejveer.EcomUserAuthService.Exception.ResourceNotFoundException;
 import dev.Tejveer.EcomUserAuthService.Exception.SellerNotVerifiedException;
 import dev.Tejveer.EcomUserAuthService.Service.Interface.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,18 +33,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.AuthenticationException;
 
+@Tag(
+        name = "User APIs",
+        description = "Operations related to user authentication and profile management"
+)
 @RestController
-@RequestMapping("/user")
+@RequestMapping("apis/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "Sign up", description = "Register a new user account")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User Registered Successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content)
+    })
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignupRequest signupRequestDTO) {
         SignUpResponse response = userService.signUp(signupRequestDTO);
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Login", description = "Authenticate a user and issue access/refresh tokens")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login Successful"),
+            @ApiResponse(responseCode = "404", description = "User Not Found", content = @Content)
+    })
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequestDTO,
                                               HttpServletResponse httpServletResponse) throws ResourceNotFoundException {
@@ -49,24 +69,41 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Refresh access token", description = "Exchange a valid refresh token for a new access token")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Token Refreshed Successfully"),
+            @ApiResponse(responseCode = "401", description = "Invalid Or Expired Refresh Token", content = @Content)
+    })
     @PostMapping("/token")
     public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) throws AuthenticationException {
         AuthResponse authResponse = userService.refreshAccessToken(refreshTokenRequest);
         return ResponseEntity.ok(authResponse);
     }
 
+    @Operation(summary = "Get current user profile", description = "Fetch the profile of the currently authenticated user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Profile Fetched Successfully"),
+            @ApiResponse(responseCode = "404", description = "User Not Found", content = @Content)
+    })
     @GetMapping("/me")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserProfileResponse> getUserProfile() throws ResourceNotFoundException {
         UserProfileResponse profileResponse = userService.getUserProfile();
         return ResponseEntity.ok(profileResponse);
     }
 
+    @Operation(summary = "Update current user profile", description = "Update the profile of the currently authenticated user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Profile Updated Successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User Not Found", content = @Content)
+    })
     @PutMapping("/update/me")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserProfileResponse> updateUserProfile(@RequestBody UpdateUserProfileRequest updateUserProfileRequest)
             throws ResourceNotFoundException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserProfileResponse userProfileResponse = userService.updateUserProfile(user.getId().toString(),
-                updateUserProfileRequest);
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserProfileResponse userProfileResponse = userService.updateUserProfile(userId, updateUserProfileRequest);
         return ResponseEntity.ok(userProfileResponse);
     }
 
@@ -76,7 +113,14 @@ public class UserController {
      * @return
      * @throws ResourceNotFoundException
      */
+    @Operation(summary = "Request seller conversion", description = "Submit seller profile details to request conversion from user to seller")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Seller Profile Request Submitted"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User Not Found", content = @Content)
+    })
     @PutMapping("/create/seller")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<SellerProfileResponse> createSeller(@RequestBody CreateSellerProfileRequest sellerProfileRequest)
             throws ResourceNotFoundException {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,7 +128,13 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Approve user-to-seller role update", description = "Update a user's role to seller once seller verification is complete")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Role Updated Successfully"),
+            @ApiResponse(responseCode = "400", description = "Seller Not Yet Verified Or Already A Seller", content = @Content)
+    })
     @PutMapping("/update/role/user-seller/{userId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity updateRole(@PathVariable String userId) throws SellerNotVerifiedException, ResourceNotFoundException {
         try {
             boolean updated = userService.updateRoleFromUserToSeller(userId);
@@ -96,6 +146,14 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/seller-profile")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<SellerProfileResponse> getSellerProfile(){
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SellerProfileResponse response = userService.getSellerProfile(userId);
+        return ResponseEntity.ok(response);
     }
 
 //    private void generateCookies(HttpServletResponse httpServletResponse, AuthResponse authResponse){

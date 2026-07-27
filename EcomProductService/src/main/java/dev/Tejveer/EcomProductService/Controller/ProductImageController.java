@@ -3,6 +3,11 @@ package dev.Tejveer.EcomProductService.Controller;
 import dev.Tejveer.EcomProductService.DTO.Image.ProductImageAddRequest;
 import dev.Tejveer.EcomProductService.DTO.Image.ProductImageResponse;
 import dev.Tejveer.EcomProductService.Services.ProductImageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +27,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.UUID;
 
+@Tag(
+        name = "Product Image APIs",
+        description = "Operations related to product images"
+)
 @RestController
 @Slf4j
 @RequestMapping("/apis/product-images")
@@ -35,6 +44,13 @@ public class ProductImageController {
         this.productImageService = productImageService;
     }
 
+    @Operation(summary = "Add product image", description = "Upload a single image for a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Image Added"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Add Image", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+    })
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> addImage(@Valid @RequestBody ProductImageAddRequest request) {
@@ -47,6 +63,13 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Add product images in batch", description = "Upload multiple images for a product in a single request")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Images Added"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Add Images", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+    })
     @PostMapping("/batch")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ProductImageResponse>> addImages(
@@ -60,6 +83,12 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Delete product image", description = "Delete an image belonging to a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Image Deleted"),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Delete Image", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Image Not Found", content = @Content)
+    })
     @DeleteMapping("/{imageId}")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<Void> deleteImage(@PathVariable UUID imageId) {
@@ -72,6 +101,11 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Get images by product id", description = "Fetch all images associated with a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Images Fetched Successfully"),
+            @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+    })
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<ProductImageResponse>> getImagesByProductId(@PathVariable UUID productId) {
         try {
@@ -83,6 +117,12 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Set primary image", description = "Mark a specific image as the primary image for a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Primary Image Set"),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Update This Product's Images", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Product Or Image Not Found", content = @Content)
+    })
     @PatchMapping("/product/{productId}/primary/{imageId}")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> setPrimaryImage(
@@ -97,6 +137,12 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Set thumbnail image", description = "Mark a specific image as the thumbnail image for a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Thumbnail Image Set"),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Update This Product's Images", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Product Or Image Not Found", content = @Content)
+    })
     @PatchMapping("/product/{productId}/thumbnail/{imageId}")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductImageResponse> setThumbnailImage(
@@ -111,6 +157,13 @@ public class ProductImageController {
         }
     }
 
+    @Operation(summary = "Reorder product images", description = "Update the display order of a product's images")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Images Reordered"),
+            @ApiResponse(responseCode = "400", description = "Invalid Image Order", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Not Authorized To Reorder This Product's Images", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+    })
     @PutMapping("/product/{productId}/reorder")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<List<ProductImageResponse>> reorderImages(

@@ -2,6 +2,7 @@ package dev.Tejveer.EcomProductService.Services;
 
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
 import dev.Tejveer.EcomProductService.Entity.ProductFilter;
 import dev.Tejveer.EcomProductService.Exception.ResourceNotFoundException;
@@ -23,9 +24,9 @@ public interface ProductServices {
     /**
      * List of products through pagination, by using pageable concept of JPA
      */
-    Page<ProductResponse> getAllProducts(Pageable pageable);
+    ProductResponseDto getAllProducts(Pageable pageable);
 
-    Page<ProductResponse> getFilterProducts(Pageable pageable, ProductFilter filter);
+    ProductResponseDto getFilterProducts(Pageable pageable, ProductFilter filter);
 
-    Page<ProductResponse> keywordSearch(Pageable pageable, String keyword);
+    ProductResponseDto keywordSearch(Pageable pageable, String keyword);
 }

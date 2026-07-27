@@ -1,7 +1,6 @@
 package dev.Tejveer.EcomProductService.DTO.Product;
 
 import dev.Tejveer.EcomProductService.Entity.CurrencyType;
-import dev.Tejveer.EcomProductService.Entity.ProductAttribute;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -48,5 +47,5 @@ public class ProductAddRequest {
     private CurrencyType currencyType;
 
     @NotEmpty(message = "Currency Type is required")
-    private List<ProductAttribute> productAttributes;
+    private List<ProductAttributeRequest> productAttributes;
 }

@@ -2,6 +2,7 @@ package dev.Tejveer.EcomProductService.Services.Impl;
 
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
 import dev.Tejveer.EcomProductService.Entity.Category;
 import dev.Tejveer.EcomProductService.Entity.Product;
@@ -113,27 +114,58 @@ public class ProductServiceImpl implements ProductServices {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(Pageable pageable) {
+    public ProductResponseDto getAllProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
-        return products.map(
+        Page<ProductResponse> pageData = products.map(
                 product -> modelMapper.map(product, ProductResponse.class)
         );
+
+        return ProductResponseDto.builder()
+                .productList(pageData.getContent())
+                .currentPageElements(pageData.getContent().size())
+                .totalElements(pageData.getTotalElements())
+                .totalPages((long) pageData.getTotalPages())
+                .hasNext(pageData.hasNext())
+                .build();
     }
 
     @Override
-    public Page<ProductResponse> getFilterProducts(Pageable pageable, ProductFilter filter) {
+    public ProductResponseDto getFilterProducts(Pageable pageable, ProductFilter filter) {
         Specification<Product> spec = ProductSpecification.withFilter(filter);
         Page<Product> productPage = productRepository.findAll(spec, pageable);
-        return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
+        Page<ProductResponse> pageData = productPage.map(
+                product -> modelMapper.map(product, ProductResponse.class)
+        );
+
+        return ProductResponseDto.builder()
+                .productList(pageData.getContent())
+                .currentPageElements(pageData.getContent().size())
+                .totalElements(pageData.getTotalElements())
+                .totalPages((long) pageData.getTotalPages())
+                .hasNext(pageData.hasNext())
+                .build();
     }
 
     @Override
-    public Page<ProductResponse> keywordSearch(Pageable pageable, String keyword) {
+    public ProductResponseDto keywordSearch(Pageable pageable, String keyword) {
+        Page<ProductResponse> pageData;
         if (keyword == null || keyword.isBlank()) {
             Page<Product> productPage = productRepository.findAll(pageable);
-            return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
+            pageData = productPage.map(
+                    product -> modelMapper.map(product, ProductResponse.class)
+            );
+        } else {
+            Page<Product> productPage = productRepository.searchByKeyword(keyword, pageable);
+            pageData = productPage.map(
+                    product -> modelMapper.map(product, ProductResponse.class)
+            );
         }
-        Page<Product> productPage = productRepository.searchByKeyword(keyword, pageable);
-        return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
+        return ProductResponseDto.builder()
+                .productList(pageData.getContent())
+                .currentPageElements(pageData.getContent().size())
+                .totalElements(pageData.getTotalElements())
+                .totalPages((long) pageData.getTotalPages())
+                .hasNext(pageData.hasNext())
+                .build();
     }
 }

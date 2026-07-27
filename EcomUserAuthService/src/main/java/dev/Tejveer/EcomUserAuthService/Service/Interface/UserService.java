@@ -24,6 +24,8 @@ public interface UserService {
     UserProfileResponse updateUserProfile(String userId, UpdateUserProfileRequest updateUserProfileRequest)
             throws ResourceNotFoundException;
 
+    SellerProfileResponse getSellerProfile(String userId);
+
     SellerProfileResponse createSeller(String userId, CreateSellerProfileRequest sellerProfileRequest) throws ResourceNotFoundException;
 
     boolean updateRoleFromUserToSeller(String sellerUserId) throws ResourceNotFoundException;

@@ -1,6 +1,7 @@
 package dev.Tejveer.EcomUserAuthService.Service.Implementation;
 
 import dev.Tejveer.EcomUserAuthService.Config.JwtUtils;
+import dev.Tejveer.EcomUserAuthService.DTO.AddressRequest;
 import dev.Tejveer.EcomUserAuthService.DTO.AddressResponseDTO;
 import dev.Tejveer.EcomUserAuthService.DTO.AuthResponse;
 import dev.Tejveer.EcomUserAuthService.DTO.CreateSellerProfileRequest;
@@ -139,7 +140,6 @@ public class UserServiceImpl implements UserService {
                     .name(user.getName())
                     .email(user.getEmail())
                     .phoneNumber(user.getPhoneNumber())
-                    .sellerProfile(sellerProfileResponse)
                     .addresses(addresses)
                     .profilePictureUrl(user.getProfilePictureUrl())
                     .createdAt(user.getCreatedAt().toString())
@@ -158,6 +158,9 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(
                     () -> new IllegalArgumentException("Invalid user Id")
             );
+            List<AddressResponseDTO> addresses = addressRepository.findByUserId(UUID.fromString(userId)).stream()
+                    .map(address -> modelMapper.map(address, AddressResponseDTO.class))
+                    .collect(Collectors.toList());
 
             user.setName(updateUserProfileRequest.getName());
             user.setPhoneNumber(updateUserProfileRequest.getPhoneNumber());
@@ -168,6 +171,7 @@ public class UserServiceImpl implements UserService {
                     .email(user.getEmail())
                     .phoneNumber(user.getPhoneNumber())
                     .profilePictureUrl(user.getProfilePictureUrl())
+                    .addresses(addresses)
                     .createdAt(user.getCreatedAt().toString())
                     .roles(user.getRoles())
                     .build();
@@ -196,7 +200,7 @@ public class UserServiceImpl implements UserService {
             user.assignSellerProfile(sellerProfile);
 
             // Store address must set the userId too
-            Address storeAddress = sellerProfileRequest.getStoreAddress();
+            Address storeAddress = modelMapper.map(sellerProfileRequest.getStoreAddress(), Address.class);
             storeAddress.setUser(user);
             storeAddress.setAddressType(AddressType.STORE);
 
@@ -222,5 +226,10 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public SellerProfileResponse getSellerProfile(String userId) {
+        return null;
     }
 }

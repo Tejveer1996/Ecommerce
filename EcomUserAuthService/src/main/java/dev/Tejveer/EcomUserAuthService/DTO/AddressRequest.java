@@ -1,7 +1,6 @@
 package dev.Tejveer.EcomUserAuthService.DTO;
 
-import dev.Tejveer.EcomUserAuthService.Entity.Address;
-import jakarta.persistence.Entity;
+import dev.Tejveer.EcomUserAuthService.Entity.AddressType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,16 +14,25 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CreateSellerProfileRequest {
-    @NotNull
-    String storeName;
+public class AddressRequest {
 
     @NotNull
-    AddressRequest storeAddress;
+    String address;
 
     @NotNull
-    String storeDescription;
+    String city;
 
     @NotNull
-    String gst;
+    String state;
+
+    @NotNull
+    String country;
+
+    @NotNull
+    String postalCode;
+
+    boolean isDefault;
+
+    @NotNull
+    AddressType addressType;
 }
