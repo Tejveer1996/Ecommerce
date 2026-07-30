@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EcomOrderService" />
+        <module name="EcomInventoryService" />
         <module name="EcomPaymentService" />
         <module name="EcomUserAuthService" />
         <module name="EcomProductService" />
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="EcomInventoryService" options="-parameters" />
       <module name="EcomOrderService" options="-parameters" />
       <module name="EcomPaymentService" options="-parameters" />
       <module name="EcomProductService" options="-parameters" />

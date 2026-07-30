@@ -1,9 +1,7 @@
 package dev.Tejveer.EcomProductService.Utils;
 
-import dev.Tejveer.EcomProductService.DTO.Product.ProductAttributeRequest;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
 import dev.Tejveer.EcomProductService.Entity.Product;
-import dev.Tejveer.EcomProductService.Entity.ProductAttribute;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

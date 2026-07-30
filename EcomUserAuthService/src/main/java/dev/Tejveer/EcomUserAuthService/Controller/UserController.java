@@ -148,6 +148,12 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Seller profile", description = "Get the seller profile if the user is a seller too")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Profile fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User is not seller", content = @Content)
+    })
     @GetMapping("/seller-profile")
     @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<SellerProfileResponse> getSellerProfile(){
