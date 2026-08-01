@@ -1,6 +1,5 @@
-package dev.Tejveer.EcomUserAuthService.Config;
+package dev.tejveer.EcomCartService.config;
 
-import dev.Tejveer.EcomUserAuthService.Service.Implementation.CustomerDetailService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,8 +23,6 @@ import java.util.stream.Collectors;
 public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
-    @Autowired
-    private CustomerDetailService customerDetailService;
 
     /**
      * Fetch the token from httpResponse and fetch the claims after validating the token,

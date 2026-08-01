@@ -134,15 +134,15 @@ public class JwtUtils {
         return expiryDate.before(new Date());
     }
 
-    private Date extractExpiration(String token) {
-        return extractClaims(token, Claims::getExpiration);
-    }
+//    private Date extractExpiration(String token) {
+//        return extractClaims(token, Claims::getExpiration);
+//    }
+//
+//    public String extractUserId(String token) {
+//        return extractClaims(token, Claims::getSubject);
+//    }
 
-    public String extractUserId(String token) {
-        return extractClaims(token, Claims::getSubject);
-    }
-
-    private <T> T extractClaims(String token, Function<Claims, T> claimResolver) {
+    private <T> T extractClaims(String token, Function<Claims, T> claimResolver) throws Exception {
         Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
     }
@@ -153,9 +153,9 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    public Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) throws Exception {
         return Jwts.parser()
-                .verifyWith((SecretKey) getSignKey())
+                .verifyWith(getPublicKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

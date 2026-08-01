@@ -1,4 +1,4 @@
-package dev.Tejveer.EcomProductService.Config;
+package dev.tejveer.EcomCartService.config;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

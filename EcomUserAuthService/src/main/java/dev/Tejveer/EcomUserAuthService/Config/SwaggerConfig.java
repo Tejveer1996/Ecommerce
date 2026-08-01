@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "E-Commerce Product Service API",
+                title = "E-Commerce Auth Service API",
                 version = "1.0",
-                description = "API documentation for Product Service"
+                description = "API documentation for Auth Service"
         ),
         security = {
                 @SecurityRequirement(name = "Bearer Authentication")

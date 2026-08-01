@@ -1,4 +1,5 @@
-package dev.tejveer.Inventory.config;
+package dev.tejveer.EcomCartService.config;
+
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -10,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "E-Commerce Inventory Service API",
+                title = "E-Commerce Cart Service API",
                 version = "1.0",
-                description = "API documentation for Inventory Service"
+                description = "API documentation for Cart Service"
         ),
         security = {
                 @SecurityRequirement(name = "Bearer Authentication")

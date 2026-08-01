@@ -1,4 +1,4 @@
-package dev.tejveer.EcomCartService.dto;
+package dev.tejveer.EcomCartService.service.clients.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddItemToCartRequest {
+public class InventoryCheckResponse {
     UUID productId;
-    Long priceSnapShot;
+    boolean inStock;
+    Long availableQuantity;
+    Long requestedQuantity;
 }

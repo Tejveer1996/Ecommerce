@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a706fd88-1c57-4009-b438-2e535bd006f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/service/clients/dto/InventoryCheckResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/EcomCartServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/EcomCartServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/dto/AddItemToCartRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/dto/AddItemToCartRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/service/CartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/java/dev/tejveer/EcomCartService/service/CartServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomInventoryService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomInventoryService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomInventoryService/src/main/java/dev/tejveer/Inventory/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomInventoryService/src/main/java/dev/tejveer/Inventory/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomInventoryService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomInventoryService/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtAuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SwaggerConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,17 +53,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dushyant Sharma/Ecommerce Project/EcomCartService&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.language&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Dushyant Sharma/Ecommerce Project/EcomCartService/src/main/java/dev/tejveer/EcomCartService/config",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "configurable.group.language"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomCartService\src\main\java\dev\tejveer\EcomCartService\config" />
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomInventoryService\src\main\java\dev\tejveer\Inventory\config" />
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomProductService\src\main\java\dev\Tejveer\EcomProductService\Config" />
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomProductService\src\main\java\dev\Tejveer\EcomProductService\DTO" />
@@ -71,7 +83,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.InventoryApplication">
+  <component name="RunManager" selected="Application.EcomUserAuthServiceApplication">
     <configuration name="DiscoveryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dev.tejveer.discovery_service.DiscoveryServiceApplication" />
       <module name="discovery-service" />
@@ -85,12 +97,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EcomOrderServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dev.tejveer.EcomOrderService.EcomOrderServiceApplication" />
-      <module name="EcomOrderService" />
+    <configuration name="EcomCartServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dev.tejveer.EcomCartService.EcomCartServiceApplication" />
+      <module name="EcomCartService" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dev.tejveer.EcomOrderService.*" />
+          <option name="PATTERN" value="dev.tejveer.EcomCartService.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -142,8 +154,8 @@
         <item itemvalue="Application.InventoryApplication" />
         <item itemvalue="Application.EcomUserAuthServiceApplication" />
         <item itemvalue="Application.EcomProductServiceApplication" />
+        <item itemvalue="Application.EcomCartServiceApplication" />
         <item itemvalue="Application.DiscoveryServiceApplication" />
-        <item itemvalue="Application.EcomOrderServiceApplication" />
       </list>
     </recent_temporary>
   </component>
