@@ -85,21 +85,15 @@ public class JwtUtils {
 
 
     public PrivateKey getPrivateKey() throws Exception {
-
         byte[] keyBytes = Base64.getDecoder().decode(privateKey);
-
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-
         return KeyFactory.getInstance("RSA")
                 .generatePrivate(spec);
     }
 
     public PublicKey getPublicKey() throws Exception {
-
         byte[] keyBytes = Base64.getDecoder().decode(publicKey);
-
         X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-
         return KeyFactory.getInstance("RSA")
                 .generatePublic(spec);
     }
@@ -107,7 +101,6 @@ public class JwtUtils {
     /**
      * This method validate the refresh token and return the userId present in the subject
      * which will be used to generate access token after refresh token validation.
-     *
      * @param refreshToken
      * @return
      */

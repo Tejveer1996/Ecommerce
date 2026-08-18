@@ -26,6 +26,8 @@ public class SellerProfileResponse {
 
     String gst;
 
+    AddressResponseDTO storeAddress;
+
     boolean verified;
 
     @CreationTimestamp

@@ -1,7 +1,6 @@
 package dev.Tejveer.EcomUserAuthService.Service.Implementation;
 
 import dev.Tejveer.EcomUserAuthService.Config.JwtUtils;
-import dev.Tejveer.EcomUserAuthService.DTO.AddressRequest;
 import dev.Tejveer.EcomUserAuthService.DTO.AddressResponseDTO;
 import dev.Tejveer.EcomUserAuthService.DTO.AuthResponse;
 import dev.Tejveer.EcomUserAuthService.DTO.CreateSellerProfileRequest;
@@ -67,8 +66,6 @@ public class UserServiceImpl implements UserService {
             if (existingUser.isPresent() && existingUser.get().getRoles().contains(Roles.USER)) {
                 throw new IllegalArgumentException("User already exist for email : " + signupRequestDTO.getEmail());
             }
-
-
             // Save new user in the db.
             User newUser = User.builder()
                     .name(signupRequestDTO.getName())
@@ -122,8 +119,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new AuthenticationServiceException("Invalid refresh token");
         }
-
-
     }
 
     @Override
@@ -131,8 +126,8 @@ public class UserServiceImpl implements UserService {
         try {
             String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User user = userRepository.findById(UUID.fromString(userId)).get();
-            SellerProfileResponse sellerProfileResponse = modelMapper.map(user.getSellerProfile(), SellerProfileResponse.class);
             List<AddressResponseDTO> addresses = addressRepository.findByUserId(UUID.fromString(userId)).stream()
+                    .filter(address -> !address.getAddressType().equals(AddressType.STORE))
                     .map(address -> modelMapper.map(address, AddressResponseDTO.class))
                     .collect(Collectors.toList());
             return UserProfileResponse.builder()
@@ -188,24 +183,25 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(
                     () -> new ResourceNotFoundException("Invalid user")
             );
-            if (user.getSellerProfile() != null) {
-                throw new ResourceNotFoundException("Seller already exist");
+            if (user.getSellerProfile() == null) {
+                // Store address must set the userId too
+                Address storeAddress = modelMapper.map(sellerProfileRequest.getStoreAddress(), Address.class);
+                storeAddress.setUser(user);
+                storeAddress.setAddressType(AddressType.STORE);
+                user.addAddress(storeAddress);
+
+                Address savedAddress = addressRepository.save(storeAddress);
+
+                SellerProfile sellerProfile = SellerProfile.builder()
+                        .storeName(sellerProfileRequest.getStoreName())
+                        .storeDescription(sellerProfileRequest.getStoreDescription())
+                        .gst(sellerProfileRequest.getGst())
+                        .addressId(savedAddress.getId().toString())
+                        .user(user)
+                        .build();
+                user.assignSellerProfile(sellerProfile);
+
             }
-            SellerProfile sellerProfile = SellerProfile.builder()
-                    .storeName(sellerProfileRequest.getStoreName())
-                    .storeDescription(sellerProfileRequest.getStoreDescription())
-                    .gst(sellerProfileRequest.getGst())
-                    .user(user)
-                    .build();
-            user.assignSellerProfile(sellerProfile);
-
-            // Store address must set the userId too
-            Address storeAddress = modelMapper.map(sellerProfileRequest.getStoreAddress(), Address.class);
-            storeAddress.setUser(user);
-            storeAddress.setAddressType(AddressType.STORE);
-
-            user.addAddress(storeAddress);
-
             return modelMapper.map(sellerRepository.findById(UUID.fromString(userId)), SellerProfileResponse.class);
         } catch (Exception e) {
             throw new BadCredentialsException("Error : " + e.getMessage());
@@ -229,7 +225,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SellerProfileResponse getSellerProfile(String userId) {
-        return null;
+    public SellerProfileResponse getSellerProfile(String userId) throws ResourceNotFoundException {
+        User user = userRepository.findById(UUID.fromString(userId)).orElseThrow(
+                () -> new ResourceNotFoundException("Invalid sellerUserId")
+        );
+        SellerProfile sellerProfile = sellerRepository.findById(UUID.fromString(userId)).orElseThrow(
+                () -> new ResourceNotFoundException("Seller not found")
+        );
+
+        Address storeAddress = addressRepository.findById(UUID.fromString(sellerProfile.getAddressId())).orElseThrow(
+                () -> new ResourceNotFoundException("Address not found")
+        );
+
+        SellerProfileResponse sellerProfileResponse = modelMapper.map(sellerProfile, SellerProfileResponse.class);
+
+        sellerProfileResponse.setStoreAddress(modelMapper.map(storeAddress, AddressResponseDTO.class));
+        return sellerProfileResponse;
+    }
+
+    @Override
+    public List<SellerProfileResponse> getAllSellerProfile() {
+        List<SellerProfile> sellerProfileList = sellerRepository.findAll();
+        return sellerProfileList.stream()
+                .map(sellerProfile -> modelMapper.map(sellerProfile, SellerProfileResponse.class))
+                .collect(Collectors.toList());
     }
 }

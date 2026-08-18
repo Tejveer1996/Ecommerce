@@ -46,6 +46,8 @@ public class SellerProfile {
 
     String gst;
 
+    String addressId;
+
     boolean verified;
 
     @CreationTimestamp

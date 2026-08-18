@@ -12,6 +12,8 @@ import dev.Tejveer.EcomUserAuthService.DTO.UserProfileResponse;
 import dev.Tejveer.EcomUserAuthService.Entity.SellerProfile;
 import dev.Tejveer.EcomUserAuthService.Exception.ResourceNotFoundException;
 
+import java.util.List;
+
 public interface UserService {
     SignUpResponse signUp(SignupRequest signupRequestDTO);
 
@@ -24,7 +26,9 @@ public interface UserService {
     UserProfileResponse updateUserProfile(String userId, UpdateUserProfileRequest updateUserProfileRequest)
             throws ResourceNotFoundException;
 
-    SellerProfileResponse getSellerProfile(String userId);
+    SellerProfileResponse getSellerProfile(String userId) throws ResourceNotFoundException;
+
+    List<SellerProfileResponse> getAllSellerProfile();
 
     SellerProfileResponse createSeller(String userId, CreateSellerProfileRequest sellerProfileRequest) throws ResourceNotFoundException;
 

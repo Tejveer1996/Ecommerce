@@ -9,7 +9,6 @@ import dev.Tejveer.EcomUserAuthService.DTO.SignUpResponse;
 import dev.Tejveer.EcomUserAuthService.DTO.SignupRequest;
 import dev.Tejveer.EcomUserAuthService.DTO.UpdateUserProfileRequest;
 import dev.Tejveer.EcomUserAuthService.DTO.UserProfileResponse;
-import dev.Tejveer.EcomUserAuthService.Entity.User;
 import dev.Tejveer.EcomUserAuthService.Exception.ResourceNotFoundException;
 import dev.Tejveer.EcomUserAuthService.Exception.SellerNotVerifiedException;
 import dev.Tejveer.EcomUserAuthService.Service.Interface.UserService;
@@ -32,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.AuthenticationException;
+import java.util.List;
 
 @Tag(
         name = "User APIs",
@@ -109,6 +109,7 @@ public class UserController {
 
     /**
      * Request of the user for conversion to seller by taking the seller info in request body.
+     *
      * @param sellerProfileRequest
      * @return
      * @throws ResourceNotFoundException
@@ -134,7 +135,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Seller Not Yet Verified Or Already A Seller", content = @Content)
     })
     @PutMapping("/update/role/user-seller/{userId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity updateRole(@PathVariable String userId) throws SellerNotVerifiedException, ResourceNotFoundException {
         try {
             boolean updated = userService.updateRoleFromUserToSeller(userId);
@@ -156,10 +157,22 @@ public class UserController {
     })
     @GetMapping("/seller-profile")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<SellerProfileResponse> getSellerProfile(){
+    public ResponseEntity<SellerProfileResponse> getSellerProfile() throws ResourceNotFoundException {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SellerProfileResponse response = userService.getSellerProfile(userId);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Seller profile list", description = "Get all the seller profile")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Profiles fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User is not seller", content = @Content)
+    })
+    @GetMapping("/seller-profile/list")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<SellerProfileResponse>> getAllSellerProfiles() {
+        return ResponseEntity.ok(userService.getAllSellerProfile());
     }
 
 //    private void generateCookies(HttpServletResponse httpServletResponse, AuthResponse authResponse){
