@@ -6,18 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="a706fd88-1c57-4009-b438-2e535bd006f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomCartService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomCartService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/Controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomOrderService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomOrderService/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Advice/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtAuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryCreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/DTO/Category/CategoryResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/EcomProductServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/EcomProductServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/BaseModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Entity/BaseModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomProductService/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/SellerProfileResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/DTO/SellerProfileResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Entity/SellerProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Entity/SellerProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Implementation/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Implementation/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Interface/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Interface/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcomUserAuthService/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EcomUserAuthService/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,16 +53,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Dushyant Sharma/Ecommerce Project/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/config",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Dushyant Sharma/Ecommerce Project/EcomOrderService/src/main/java/dev/tejveer/EcomOrderService/config&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomOrderService\src\main\java\dev\tejveer\EcomOrderService\config" />
@@ -70,6 +72,7 @@
       <recent name="C:\Users\Dushyant Sharma\Ecommerce Project\EcomProductService\src\main\java\dev\Tejveer\EcomProductService\DTO" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.Tejveer.EcomProductService.Config" />
       <recent name="dev.Tejveer.EcomUserAuthService.Config" />
       <recent name="dev.Tejveer.EcomProductService.Exception" />
       <recent name="dev.Tejveer.EcomProductService.Advice" />
@@ -82,7 +85,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Application.EcomUserAuthServiceApplication">
+  <component name="RunManager" selected="Application.EcomProductServiceApplication">
     <configuration name="DiscoveryServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dev.tejveer.discovery_service.DiscoveryServiceApplication" />
       <module name="discovery-service" />
@@ -150,9 +153,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.EcomProductServiceApplication" />
         <item itemvalue="Application.EcomUserAuthServiceApplication" />
         <item itemvalue="Application.InventoryApplication" />
-        <item itemvalue="Application.EcomProductServiceApplication" />
         <item itemvalue="Application.EcomCartServiceApplication" />
         <item itemvalue="Application.DiscoveryServiceApplication" />
       </list>
@@ -259,6 +262,62 @@
           <url>file://$PROJECT_DIR$/EcomUserAuthService/src/main/java/dev/Tejveer/EcomUserAuthService/Service/Implementation/UserServiceImpl.java</url>
           <line>212</line>
           <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Utils/ModelMapperConfig.java</url>
+          <line>25</line>
+          <properties>
+            <option name="lambda-ordinal" value="1" />
+          </properties>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtAuthFilter.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Services/Impl/CategoryServiceImpl.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java</url>
+          <line>30</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/SecurityConfig.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/EcomProductService/src/main/java/dev/Tejveer/EcomProductService/Config/JwtAuthFilter.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

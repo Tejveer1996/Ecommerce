@@ -23,6 +23,6 @@ public interface CategoryService {
 
     List<CategoryResponse> getAllParentCategories();
 
-    List<CategoryResponse> getImmediateSubCategory(String parentCategoryId);
+    List<CategoryResponse> getImmediateSubCategory(String parentCategoryId) throws ResourceNotFoundException;
 
 }

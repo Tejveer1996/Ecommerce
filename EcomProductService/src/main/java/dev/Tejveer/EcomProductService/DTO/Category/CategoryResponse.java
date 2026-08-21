@@ -18,7 +18,7 @@ public class CategoryResponse {
     String id;
     String name;
     String description;
-    String parentId;
+    String parentCategoryId;
     String createdAt;
     String updatedAt;
 }

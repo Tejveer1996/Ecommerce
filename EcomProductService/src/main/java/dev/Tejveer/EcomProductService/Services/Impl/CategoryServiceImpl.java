@@ -10,6 +10,7 @@ import dev.Tejveer.EcomProductService.Repository.CategoryRepository;
 import dev.Tejveer.EcomProductService.Services.CategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PACKAGE, makeFinal = true)
 public class CategoryServiceImpl implements CategoryService {
 
     CategoryRepository categoryRepository;
@@ -44,8 +46,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public CategoryResponse addCategory(CategoryCreateRequest createRequest) throws ResourceNotFoundException {
-        if (createRequest.getParentId() != null &&
-                !categoryRepository.existsById(UUID.fromString(createRequest.getParentId()))) {
+        if (createRequest.getParentCategoryId() != null &&
+                !categoryRepository.existsById(UUID.fromString(createRequest.getParentCategoryId()))) {
             throw new ResourceNotFoundException("Invalid parent id");
         }
         Category category = modelMapper.map(createRequest, Category.class);
@@ -74,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
                 () -> new ResourceNotFoundException("Invalid category id")
         );
         if (category.getParentCategoryId() == null) {
-            throw new ResourceNotFoundException("Parent category cant be delete");
+            throw new ResourceNotFoundException("Parent category cant be deleted");
         }
         categoryRepository.deleteById(UUID.fromString(categoryId));
         return true;
@@ -89,7 +91,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryResponse> getImmediateSubCategory(String parentCategoryId) {
+    public List<CategoryResponse> getImmediateSubCategory(String parentCategoryId) throws ResourceNotFoundException {
+        if (!categoryRepository.existsById(UUID.fromString(parentCategoryId))){
+            throw new ResourceNotFoundException("Parent category id does not exist");
+        }
         List<Category> categories =
                 categoryRepository.findByParentCategoryId(UUID.fromString(parentCategoryId));
 

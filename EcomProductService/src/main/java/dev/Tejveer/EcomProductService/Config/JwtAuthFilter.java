@@ -55,7 +55,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             log.info("User credentials not matched");
         }
-
+        log.info(
+                "Request: {} {}, Authentication: {}",
+                request.getMethod(),
+                request.getRequestURI(),
+                SecurityContextHolder.getContext().getAuthentication()
+        );
         filterChain.doFilter(request, response);
 
     }

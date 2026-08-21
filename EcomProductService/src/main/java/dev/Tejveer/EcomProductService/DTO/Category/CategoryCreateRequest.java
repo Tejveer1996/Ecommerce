@@ -18,5 +18,5 @@ import lombok.experimental.FieldDefaults;
 public class CategoryCreateRequest {
     String name;
     String description;
-    String parentId;
+    String parentCategoryId;
 }

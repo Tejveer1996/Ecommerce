@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +36,9 @@ import java.util.List;
 )
 @RestController
 @Slf4j
+@EnableMethodSecurity
 @RequestMapping("/apis/category")
 public class CategoryController {
-
-    private static final String ERROR_MESSAGE = "Something went wrong";
 
     @Autowired
     private final CategoryService categoryService;
@@ -64,7 +64,7 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             log.error("Error occurred while adding new category , error :: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -77,15 +77,15 @@ public class CategoryController {
     })
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CategoryResponse> updateCategory(@RequestBody CategoryUpdateRequest request) {
+    public CategoryResponse updateCategory(@RequestBody CategoryUpdateRequest request) throws ResourceNotFoundException {
         try {
             CategoryResponse response = categoryService.updateCategory(request);
-            return ResponseEntity.ok(response);
+            return response;
         } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
             log.error("Error occurred while updating category , error :: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             log.error("Error occurred while adding new category , error :: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             log.error("Error occurred while getting category :{}, error :: {}", categoryId, e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -138,7 +138,7 @@ public class CategoryController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error occurred while getting the parent categories, error :: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -146,7 +146,7 @@ public class CategoryController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sub-Categories Fetched Successfully (empty list if parent has none, or parent id does not exist)")
     })
-    @GetMapping("/{parentId}/immediate-sub-categories")
+    @GetMapping("/{parentCategoryId}/immediate-sub-categories")
     public ResponseEntity<List<CategoryResponse>> getImmediateSubCategories(@PathVariable String parentCategoryId) {
         try {
             List<CategoryResponse> response = categoryService.getImmediateSubCategory(parentCategoryId);
@@ -154,7 +154,7 @@ public class CategoryController {
         } catch (Exception e) {
             log.error("Error occurred while getting the sub categories for parent category :{}, error :: {}", parentCategoryId
                     , e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -162,14 +162,14 @@ public class CategoryController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Category Tree Fetched Successfully")
     })
-    @GetMapping("/category/tree")
+    @GetMapping("/tree")
     public ResponseEntity<List<CategoryTreeResponse>> getCategoryTree(Pageable pageable) {
         try {
             List<CategoryTreeResponse> categoryTree = categoryService.getCategoryTree(pageable);
             return ResponseEntity.ok(categoryTree);
         } catch (Exception e) {
             log.error("Error occurred while getting the categories tree, error :: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }
