@@ -1,19 +1,22 @@
-package dev.Tejveer.EcomProductService.Services.Impl;
+package dev.Tejveer.EcomProductService.Services;
 
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductAttributeRequest;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
 import dev.Tejveer.EcomProductService.Entity.Category;
 import dev.Tejveer.EcomProductService.Entity.Product;
+import dev.Tejveer.EcomProductService.Entity.ProductAttribute;
 import dev.Tejveer.EcomProductService.Entity.ProductFilter;
 import dev.Tejveer.EcomProductService.Entity.ProductStatus;
 import dev.Tejveer.EcomProductService.Exception.ResourceNotFoundException;
 import dev.Tejveer.EcomProductService.Repository.CategoryRepository;
 import dev.Tejveer.EcomProductService.Repository.ProductRepository;
-import dev.Tejveer.EcomProductService.Services.ProductServices;
 import dev.Tejveer.EcomProductService.Utils.ProductSpecification;
-import lombok.AccessLevel;
+import dev.Tejveer.EcomProductService.client.InventoryFeignClient;
+import dev.Tejveer.EcomProductService.client.dto.InventoryCreateRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -22,38 +25,48 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ProductServiceImpl implements ProductServices {
+@RequiredArgsConstructor
+public class ProductService {
+    private final ProductRepository productRepository;
+    private final InventoryFeignClient inventoryFeignClient;
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    ProductRepository productRepository;
-    CategoryRepository categoryRepository;
-    ModelMapper modelMapper;
 
-    @Override
-    public ProductResponse addProduct(ProductAddRequest productAddRequest) throws ResourceNotFoundException {
+    @Transactional
+    public ProductResponse addProduct(UUID selleId, ProductAddRequest productAddRequest) throws ResourceNotFoundException {
         Category category = categoryRepository.findById(productAddRequest.getCategoryId()).orElseThrow(
                 () -> new ResourceNotFoundException("Invalid category id")
         );
-        Product product = modelMapper.map(productAddRequest, Product.class);
-        product.setCategory(category);
-        product.setStatus(ProductStatus.DRAFT);
-        Product savedProduct = productRepository.save(product);
+        Product newProduct = mapFromAddProductRequest(selleId, category, productAddRequest);
+        Product savedProduct = productRepository.save(newProduct);
+
+        // initialize inventory
+        inventoryFeignClient.initializeInventory(InventoryCreateRequest.builder()
+                .productId(savedProduct.getId())
+                .availableQuantity(0L)
+                .minimumStock(0L)
+                .reservedQuantity(0L)
+                .build());
+
         ProductResponse productResponse = modelMapper.map(savedProduct, ProductResponse.class);
         productResponse.setCategoryName(category.getName());
         return productResponse;
     }
 
-    @Override
+
     public ProductResponse updateProduct(ProductUpdateRequest updateRequest, UUID sellerId) throws ResourceNotFoundException {
         Product product = productRepository.findById(updateRequest.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        if (product.getSellerId().equals(sellerId)) {
-            throw new IllegalAccessError("Given seller is not allowed to delete this product");
+        if (!product.getSellerId().equals(sellerId)) {
+            throw new IllegalAccessError("Given seller is not allowed to Update this product");
         }
 
         if (updateRequest.getName() != null) {
@@ -93,18 +106,18 @@ public class ProductServiceImpl implements ProductServices {
         return modelMapper.map(updatedProduct, ProductResponse.class);
     }
 
-    @Override
+
     public boolean deleteProduct(UUID productId, UUID sellerId) throws ResourceNotFoundException {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-        if (product.getSellerId().equals(sellerId)) {
+        if (!product.getSellerId().equals(sellerId)) {
             throw new IllegalAccessError("Given seller is not allowed to delete this product");
         }
         productRepository.delete(product);
         return true;
     }
 
-    @Override
+
     public ProductResponse getProductById(UUID productId) throws ResourceNotFoundException {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -113,7 +126,7 @@ public class ProductServiceImpl implements ProductServices {
         return response;
     }
 
-    @Override
+
     public ProductResponseDto getAllProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         Page<ProductResponse> pageData = products.map(
@@ -129,7 +142,7 @@ public class ProductServiceImpl implements ProductServices {
                 .build();
     }
 
-    @Override
+
     public ProductResponseDto getFilterProducts(Pageable pageable, ProductFilter filter) {
         Specification<Product> spec = ProductSpecification.withFilter(filter);
         Page<Product> productPage = productRepository.findAll(spec, pageable);
@@ -146,7 +159,7 @@ public class ProductServiceImpl implements ProductServices {
                 .build();
     }
 
-    @Override
+
     public ProductResponseDto keywordSearch(Pageable pageable, String keyword) {
         Page<ProductResponse> pageData;
         if (keyword == null || keyword.isBlank()) {
@@ -167,5 +180,29 @@ public class ProductServiceImpl implements ProductServices {
                 .totalPages((long) pageData.getTotalPages())
                 .hasNext(pageData.hasNext())
                 .build();
+    }
+
+    private Product mapFromAddProductRequest(UUID selleId, Category category, ProductAddRequest request){
+       Product product = Product.builder()
+                .name(request.getName())
+                .brand(request.getBrand())
+                .description(request.getDescription())
+                .category(category)
+                .status(ProductStatus.DRAFT)
+                .sellerId(selleId)
+                .price(request.getPrice())
+                .currencyType(request.getCurrencyType())
+                .weight(request.getWeight())
+                .build();
+        List<ProductAttribute> productAttributeList = new ArrayList<>();
+        for (ProductAttributeRequest attributeRequest : request.getProductAttributes()) {
+            productAttributeList.add(ProductAttribute.builder()
+                    .product(product)
+                    .name(attributeRequest.getName())
+                    .value(attributeRequest.getValue())
+                    .build());
+        }
+        product.setProductAttributes(productAttributeList);
+        return product;
     }
 }

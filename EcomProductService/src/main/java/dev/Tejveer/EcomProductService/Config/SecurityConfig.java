@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -18,13 +21,14 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
 
+    private static final String[] permittedUrl = {"/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/error",
+    "/apis/products", "/apis/products/{productId}"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html","/error").permitAll()
+                        .requestMatchers(permittedUrl).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

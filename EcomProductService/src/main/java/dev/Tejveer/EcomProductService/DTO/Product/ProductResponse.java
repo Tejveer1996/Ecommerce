@@ -42,7 +42,7 @@ public class ProductResponse {
 
     private ProductStatus status;
 
-    private Instant createdAt;
+    private String createdAt;
 
-    private Instant updatedAt;
+    private String updatedAt;
 }

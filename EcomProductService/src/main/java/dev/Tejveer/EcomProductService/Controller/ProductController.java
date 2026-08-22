@@ -5,7 +5,7 @@ import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
 import dev.Tejveer.EcomProductService.Entity.ProductFilter;
-import dev.Tejveer.EcomProductService.Services.ProductServices;
+import dev.Tejveer.EcomProductService.Services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,11 +40,9 @@ import java.util.UUID;
 @RequestMapping("/apis/products")
 public class ProductController {
 
-    private static final String ERROR_MESSAGE = "Something went wrong";
+    private final ProductService productServices;
 
-    private final ProductServices productServices;
-
-    public ProductController(ProductServices productServices) {
+    public ProductController(ProductService productServices) {
         this.productServices = productServices;
     }
 
@@ -59,14 +57,13 @@ public class ProductController {
     public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductAddRequest request) {
         try {
             UUID sellerId = getCurrentSellerId();
-            request.setSellerId(sellerId);
-            ProductResponse response = productServices.addProduct(request);
+            ProductResponse response = productServices.addProduct(sellerId, request);
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while adding new product, error :: {}", e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -88,7 +85,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while updating product, error :: {}", e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -109,7 +106,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while deleting product :{}, error :: {}", productId, e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -127,7 +124,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while getting product :{}, error :: {}", productId, e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -144,7 +141,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while getting all products, error :: {}", e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -162,7 +159,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while filtering products, error :: {}", e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -180,7 +177,7 @@ public class ProductController {
             throw e;
         } catch (Exception e) {
             log.error("Error occurred while searching products with keyword :{}, error :: {}", keyword, e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

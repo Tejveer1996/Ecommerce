@@ -4,6 +4,7 @@ import dev.Tejveer.EcomProductService.Entity.CurrencyType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,26 +27,22 @@ public class ProductAddRequest {
     @NotBlank(message = "Product description cannot be blank")
     private String description;
 
-    @NotBlank(message = "Seller Id is required")
-    private UUID sellerId;
-
-    @NotBlank(message = "Category Id is required")
+    @NotNull(message = "Category Id is required")
     private UUID categoryId;
 
-    @NotBlank(message = "Price is required")
+    @NotNull(message = "Price is required")
     @DecimalMin(value = "0.01", message = "Price must be greater than 0")
     private BigDecimal price;
 
     @NotBlank(message = "Brand is required")
     private String brand;
 
-    @NotBlank(message = "Weight is required")
+    @NotNull(message = "Weight is required")
     @DecimalMin(value = "0.01", message = "Weight must be greater than 0")
     private BigDecimal weight;
 
-    @NotBlank(message = "Currency Type is required")
+    @NotNull(message = "Currency Type is required")
     private CurrencyType currencyType;
 
-    @NotEmpty(message = "Currency Type is required")
     private List<ProductAttributeRequest> productAttributes;
 }

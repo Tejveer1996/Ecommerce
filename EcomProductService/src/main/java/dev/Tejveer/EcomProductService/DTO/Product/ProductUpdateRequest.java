@@ -2,6 +2,7 @@ package dev.Tejveer.EcomProductService.DTO.Product;
 
 import dev.Tejveer.EcomProductService.Entity.CurrencyType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductUpdateRequest {
-    @NotBlank(message = "Product id cannot be null for update")
+    @NotNull(message = "Product id cannot be null for update")
     private UUID productId;
 
     private String name;
