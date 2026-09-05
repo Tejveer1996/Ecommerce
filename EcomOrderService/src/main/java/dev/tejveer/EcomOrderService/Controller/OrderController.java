@@ -4,7 +4,7 @@ import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.PaymentDTO;
-import dev.tejveer.EcomOrderService.Interface.IOrderService;
+import dev.tejveer.EcomOrderService.Impl.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,7 +36,7 @@ public class OrderController {
     private static final String ERROR_MESSAGE = "Something went wrong";
 
     @Autowired
-    private IOrderService orderService;
+    private OrderService orderService;
 
     @Operation(summary = "Place order", description = "Create a new order for the logged-in user from their cart")
     @ApiResponses({
@@ -49,15 +49,14 @@ public class OrderController {
     @PostMapping("/placeorder")
     @PreAuthorize("hasRole('USER')")
     public OrderResponseDTO placeOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        String userId = null;
         try {
-            String userId = extractUserId();
-            orderRequestDTO.setUserId(userId);
-            return orderService.createOrder(orderRequestDTO);
+            userId = extractUserId();
+            return orderService.createOrder(userId, orderRequestDTO);
         } catch (Exception e) {
-            log.error("Error occurred while placing order for userId : {}, error :: {}",
-                    orderRequestDTO.getUserId(), e.getMessage());
+            log.error("Error occurred while placing order for userId : {}, error :: {}", userId, e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Error occurred while placing the order for userId : " + orderRequestDTO.getUserId());
+                    "Error occurred while placing the order for userId : " + userId);
         }
     }
 

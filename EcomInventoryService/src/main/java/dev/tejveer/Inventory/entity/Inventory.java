@@ -25,9 +25,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "inventory",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_seller_product", columnNames = {"seller_id", "product_id"}
-                )})
+        uniqueConstraints = {@UniqueConstraint(name = "uk_seller_product", columnNames = {"seller_id", "product_id"})}
+)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Inventory {
     @Id

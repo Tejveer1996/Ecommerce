@@ -8,26 +8,29 @@ import dev.tejveer.EcomOrderService.Exception.CreateOrderException;
 import dev.tejveer.EcomOrderService.Exception.OrderListNotFoundException;
 import dev.tejveer.EcomOrderService.Exception.OrderNotFoundException;
 import dev.tejveer.EcomOrderService.Exception.UpdateOrderException;
-import dev.tejveer.EcomOrderService.Interface.IOrderService;
-import dev.tejveer.EcomOrderService.Model.OrderStatus;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
 import dev.tejveer.EcomOrderService.Impl.dao.PaymentDAO;
+import dev.tejveer.EcomOrderService.Model.OrderStatus;
 import dev.tejveer.EcomOrderService.Store.OrderStore;
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.tejveer.EcomOrderService.client.CartFeignClient;
+import dev.tejveer.EcomOrderService.client.dto.CartResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderService implements IOrderService {
-    @Autowired
+public class OrderService {
     private final OrderStore orderStore;
+    private final CartFeignClient cartFeignClient;
 
-    public OrderService(OrderStore orderStore) {
+    public OrderService(OrderStore orderStore, CartFeignClient cartFeignClient) {
         this.orderStore = orderStore;
+        this.cartFeignClient = cartFeignClient;
     }
 
-    public OrderResponseDTO createOrder(OrderRequestDTO orderDTO) throws CreateOrderException {
+    public OrderResponseDTO createOrder(String userId, OrderRequestDTO orderDTO) throws CreateOrderException {
         OrderDAO orderDAO = OrderHelper.mapFromOrderRequestToOrderDao(orderDTO);
         try {
+            CartResponse cart = cartFeignClient.getCartByUserId(userId);
+
             // TODO : Call the product service to update the inventory.
             // And if out of stock return with out of stock status.
             String orderId = orderStore.storeOrderSummary(orderDAO);

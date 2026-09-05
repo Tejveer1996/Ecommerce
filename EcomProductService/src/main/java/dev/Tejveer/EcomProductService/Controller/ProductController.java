@@ -151,7 +151,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Invalid Filter Parameters", content = @Content)
     })
     @GetMapping("/filter")
-    public ResponseEntity<ProductResponseDto> getFilterProducts(Pageable pageable, ProductFilter filter) {
+    public ResponseEntity<ProductResponseDto> getFilterProducts(Pageable pageable, @RequestBody ProductFilter filter) {
         try {
             ProductResponseDto response = productServices.getFilterProducts(pageable, filter);
             return ResponseEntity.ok(response);

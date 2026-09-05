@@ -22,7 +22,7 @@ public class SecurityConfig {
     private JwtAuthFilter jwtAuthFilter;
 
     private static final String[] permittedUrl = {"/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/error",
-    "/apis/products", "/apis/products/{productId}"};
+    "/apis/products", "/apis/products/{productId}", "/apis/products/search", "/apis/products/filter"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
