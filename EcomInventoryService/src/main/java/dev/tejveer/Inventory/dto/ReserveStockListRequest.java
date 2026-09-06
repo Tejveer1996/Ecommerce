@@ -12,5 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReserveStockListRequest {
+    String orderId;
     List<CheckStockRequest> items;
 }

@@ -1,7 +1,6 @@
 package dev.tejveer.Inventory.dto;
 
 
-import dev.tejveer.Inventory.entity.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +14,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservationResponse {
-    UUID orderId;
+    String orderId;
     List<ReservedItems> reservedItemList;
 
     @Data
     @Builder
     public static class ReservedItems {
         UUID reservationId;
-        UUID sellerId;
         UUID productId;
         Long quantity;
-        ReservationStatus status;
     }
 }

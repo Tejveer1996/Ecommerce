@@ -5,6 +5,7 @@ import dev.tejveer.Inventory.dto.CheckStockResponse;
 import dev.tejveer.Inventory.dto.CreateInventoryRequest;
 import dev.tejveer.Inventory.dto.DeleteInventoryResponse;
 import dev.tejveer.Inventory.dto.InventoryResponse;
+import dev.tejveer.Inventory.dto.ReservationResponse;
 import dev.tejveer.Inventory.dto.ReserveStockListRequest;
 import dev.tejveer.Inventory.dto.UpdateInventoryRequest;
 import dev.tejveer.Inventory.exception.DuplicateInventoryException;
@@ -175,12 +176,12 @@ public class InventoryController {
 
     })
     @GetMapping("/reserve-stock")
-    public ResponseEntity<CheckStockResponse> reserveStock(@RequestBody ReserveStockListRequest request) {
+    public ResponseEntity<ReservationResponse> reserveStock(@RequestBody ReserveStockListRequest request) {
         try {
-            CheckStockResponse response = inventoryService.checkStock(request);
+            ReservationResponse response = inventoryService.reserveStock(request);
             return ResponseEntity.ok(response);
-        } catch (ResourceNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//        } catch (ResourceNotFoundException e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             log.error("Error occurred while checking stock, error :: {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ERROR_MESSAGE);

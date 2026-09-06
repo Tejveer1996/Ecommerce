@@ -1,10 +1,7 @@
 package dev.tejveer.Inventory.entity;
 
-import dev.tejveer.Inventory.entity.enums.ReservationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,9 +31,6 @@ public class InventoryReservation {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @Column(name = "seller_id", nullable = false)
-    UUID sellerId;
-
     @Column(name = "product_id", nullable = false)
     UUID productId;
 
@@ -45,11 +39,6 @@ public class InventoryReservation {
 
     @Column(nullable = false)
     Long quantity;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    ReservationStatus status = ReservationStatus.RESERVED;
 
     @Column(name = "expires_at")
     Instant expiresAt;

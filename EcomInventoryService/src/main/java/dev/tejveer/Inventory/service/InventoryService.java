@@ -5,13 +5,18 @@ import dev.tejveer.Inventory.dto.CheckStockResponse;
 import dev.tejveer.Inventory.dto.CreateInventoryRequest;
 import dev.tejveer.Inventory.dto.DeleteInventoryResponse;
 import dev.tejveer.Inventory.dto.InventoryResponse;
+import dev.tejveer.Inventory.dto.ReservationResponse;
+import dev.tejveer.Inventory.dto.ReserveStockListRequest;
 import dev.tejveer.Inventory.dto.UpdateInventoryRequest;
 import dev.tejveer.Inventory.entity.Inventory;
+import dev.tejveer.Inventory.entity.InventoryReservation;
 import dev.tejveer.Inventory.exception.DeleteInventoryException;
 import dev.tejveer.Inventory.exception.DuplicateInventoryException;
+import dev.tejveer.Inventory.exception.ReserveStockException;
 import dev.tejveer.Inventory.exception.ResourceNotFoundException;
 import dev.tejveer.Inventory.exception.UpdateInventoryException;
 import dev.tejveer.Inventory.repository.InventoryRepository;
+import dev.tejveer.Inventory.repository.InventoryReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -19,8 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +36,7 @@ import java.util.UUID;
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final InventoryReservationRepository inventoryReservationRepository;
     private final ModelMapper modelMapper;
 
 
@@ -139,5 +148,38 @@ public class InventoryService {
                 .reservedQuantity(request.getReservedQuantity()!=null?request.getReservedQuantity():0L)
                 .sellerId(sellerId)
                 .build();
+    }
+
+    public ReservationResponse reserveStock(ReserveStockListRequest request) throws ReserveStockException {
+        try {
+            List<UUID> productIds = request.getItems().stream()
+                    .map(CheckStockRequest::getProductId)
+                    .collect(Collectors.toList());
+            Map<UUID, CheckStockRequest> requestedItemMap = request.getItems().stream()
+                    .collect(Collectors.toMap(
+                            CheckStockRequest::getProductId,
+                            item -> item
+                    ));
+            List<Inventory> inventories = inventoryRepository.findByProductIdIn(productIds);
+
+            List<InventoryReservation> itemsToReserveList = new ArrayList<>();
+
+            List<ReservationResponse.ReservedItems> reservedItems = new ArrayList<>();
+            for (Inventory inventory : inventories) {
+                UUID productId = inventory.getProductId();
+                Long requestedQuantity = requestedItemMap.get(productId).getRequestedQuantity();
+                if(inventory.getAvailableQuantity() > requestedQuantity){
+
+                }else{
+
+                }
+            }
+            return ReservationResponse.builder()
+                    .orderId(request.getOrderId())
+                    .reservedItemList(reservedItems)
+                    .build();
+        }catch (Exception e){
+            throw new ReserveStockException("Failed to reserve request items");
+        }
     }
 }
