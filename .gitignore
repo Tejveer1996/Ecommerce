@@ -1,0 +1,30 @@
+﻿# ==== Detailed working docs (private, not for public repo) ====
+docs/
+
+# ==== IDE ====
+.idea/
+*.iml
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+
+# ==== Maven build output (every module) ====
+target/
+**/target/
+
+# ==== OS junk ====
+.DS_Store
+Thumbs.db
+
+# ==== Logs ====
+*.log
+logs/
+
+# ==== Env / secrets (if you move keys out of application.properties later) ====
+.env
+*.env.local
+
+# ==== Compiled class files (in case anything builds outside target/) ====
+*.class
