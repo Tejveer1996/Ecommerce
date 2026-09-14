@@ -13,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReleaseReserveStockRequest {
-
     @NotNull(message = "Order id is required")
     UUID orderId;
 }

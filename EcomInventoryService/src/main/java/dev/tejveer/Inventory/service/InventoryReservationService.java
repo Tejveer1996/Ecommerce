@@ -2,21 +2,23 @@ package dev.tejveer.Inventory.service;
 
 import dev.tejveer.Inventory.dto.ConfirmReserveStockRequest;
 import dev.tejveer.Inventory.dto.ReleaseReserveStockRequest;
-import dev.tejveer.Inventory.dto.ReservationBatchActionResponse;
+import dev.tejveer.Inventory.dto.ReservationActionResponse;
 import dev.tejveer.Inventory.dto.ReservationResponse;
 import dev.tejveer.Inventory.dto.ReserveItemsRequest;
 import dev.tejveer.Inventory.entity.InventoryReservation;
+import dev.tejveer.Inventory.entity.ItemReserve;
 import dev.tejveer.Inventory.entity.enums.ReservationStatus;
 import dev.tejveer.Inventory.exception.InventoryReservationException;
 import dev.tejveer.Inventory.exception.ResourceNotFoundException;
+import dev.tejveer.Inventory.repository.InventoryRepository;
 import dev.tejveer.Inventory.repository.InventoryReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,121 +27,148 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class InventoryReservationService {
-    InventoryReservationRepository reservationRepository;
-    ModelMapper mapper;
+    private final InventoryReservationRepository reservationRepository;
+    private final InventoryRepository inventoryRepository;
 
-
+    /**
+     * Reserve stock when order is placed. Do the stock check and update in one query to maintain
+     * concurrency(prevent race condition)
+     */
+    @Transactional(rollbackFor = InventoryReservationException.class)
     public ReservationResponse reserveStock(ReserveItemsRequest request) throws InventoryReservationException {
         try {
             if (reservationRepository.existsByOrderId(request.getOrderId())) {
                 throw new IllegalArgumentException("Order id already exist");
             }
-
-            List<InventoryReservation> newReservations = new ArrayList<>();
+            InventoryReservation reservation = InventoryReservation.builder()
+                    .orderId(request.getOrderId())
+                    .status(ReservationStatus.RESERVED)
+                    .expiresAt(Instant.now().plus(15, ChronoUnit.MINUTES))
+                    .build();
+            List<ItemReserve> itemList = new ArrayList<>();
             for (ReserveItemsRequest.Item item : request.getItems()) {
-                InventoryReservation inventoryReservation = InventoryReservation.builder()
-                        .orderId(request.getOrderId())
-                        .sellerId(item.getSellerId())
-                        .productId(item.getProductId())
-                        .quantity(item.getQuantity())
-                        .status(ReservationStatus.RESERVED)
-                        .expiresAt(Instant.now().plus(Duration.ofMinutes(15)))
-                        .build();
-                newReservations.add(inventoryReservation);
+                int reserveRow = inventoryRepository.reserveStock(item.getProductId(), item.getQuantity());
+                if (reserveRow > 0) {
+                    ItemReserve itemReserve = ItemReserve.builder()
+                            .reservation(reservation)
+                            .productId(item.getProductId())
+                            .quantity(item.getQuantity())
+                            .build();
+                    itemList.add(itemReserve);
+                } else {
+                    throw new InventoryReservationException("Stock not available for item : " + item.getProductId());
+                }
             }
-            List<InventoryReservation> reservedItemsList = reservationRepository.saveAll(newReservations);
-            ReservationResponse response = ReservationResponse.builder()
-                    .orderId(request.getOrderId()).reservedItemList(new ArrayList<>()).build();
-            reservedItemsList.stream().map(resInv -> response.getReservedItemList().add(
-                    ReservationResponse.ReservedItems.builder()
-                            .reservationId(resInv.getId())
-                            .status(resInv.getStatus())
-                            .sellerId(resInv.getSellerId())
-                            .productId(resInv.getProductId())
-                            .quantity(resInv.getQuantity())
-                            .build()
-            ));
-            return response;
+            reservation.setItemReserveList(itemList);
+            InventoryReservation reservationResponse = reservationRepository.save(reservation);
+
+            return ReservationResponse.builder()
+                    .orderId(reservation.getOrderId().toString())
+                    .reservationId(reservationResponse.getId().toString())
+                    .reservedItemIds(reservationResponse.getItemReserveList().stream()
+                            .map(itemReserve -> itemReserve.getProductId().toString())
+                            .collect(Collectors.toList()))
+                    .build();
         } catch (Exception e) {
             throw new InventoryReservationException("failed to reserve, error : " + e.getMessage());
         }
     }
 
 
-    public ReservationBatchActionResponse releaseReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
+    /**
+     *Release the stock when the customer or system cancel the order.
+     */
+    @Transactional(rollbackFor = InventoryReservationException.class)
+    public ReservationActionResponse releaseReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
         try {
-            List<InventoryReservation> inventoryReservationList =
-                    reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
-                            () -> new ResourceNotFoundException("Order id does not exist")
-                    );
-            for (InventoryReservation inventoryReservation : inventoryReservationList) {
-                inventoryReservation.setStatus(ReservationStatus.RELEASED);
+            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Given order does not exist")
+            );
+            int count =0;
+            if(reservation.getStatus() == ReservationStatus.RESERVED){
+                for(ItemReserve itemReserve : reservation.getItemReserveList()) {
+                   inventoryRepository.releaseStock(itemReserve.getProductId(), itemReserve.getQuantity());
+                   count++;
+                }
+                reservation.setStatus(ReservationStatus.RELEASED);
             }
-            reservationRepository.saveAll(inventoryReservationList);
-
-            return ReservationBatchActionResponse.builder()
-                    .orderId(request.getOrderId())
-                    .reservationIds(inventoryReservationList.stream().map(
-                            reservation -> reservation.getId()).collect(Collectors.toList()))
-                    .itemsProcessed(inventoryReservationList.size())
-                    .resultingStatus(ReservationStatus.RELEASED)
-                    .message("All the above reserved items has been released")
+            return ReservationActionResponse.builder()
+                    .reservationId(reservation.getId().toString())
+                    .itemsProcessed(count)
+                    .orderId(reservation.getOrderId().toString())
+                    .status(reservation.getStatus().name())
+                    .message(count>0 ? "Reserve items has been released" : "Given order has been already : "
+                            +reservation.getStatus().name())
                     .build();
+
         } catch (Exception e) {
             throw new InventoryReservationException("failed to release stock, error : " + e.getMessage());
         }
     }
 
 
-    public ReservationBatchActionResponse confirmReserveStock(ConfirmReserveStockRequest request) throws InventoryReservationException {
+    /**
+     * Confirm the status of the stock, when the payment get successfull, to maintain the idempotency
+     * of webhook it first checks the status for update the status.
+     */
+    @Transactional(rollbackFor = InventoryReservationException.class)
+    public ReservationActionResponse confirmReserveStock(ConfirmReserveStockRequest request) throws InventoryReservationException {
         try {
-            List<InventoryReservation> inventoryReservationList =
-                    reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
-                            () -> new ResourceNotFoundException("Order id does not exist")
-                    );
-            for (InventoryReservation inventoryReservation : inventoryReservationList) {
-                inventoryReservation.setStatus(ReservationStatus.CONFIRMED);
+            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Given order does not exist")
+            );
+            int count =0;
+            if(reservation.getStatus() == ReservationStatus.RESERVED){
+                for(ItemReserve itemReserve : reservation.getItemReserveList()) {
+                    inventoryRepository.confirmStock(itemReserve.getProductId(), itemReserve.getQuantity());
+                    count++;
+                }
+                reservation.setStatus(ReservationStatus.CONFIRMED);
             }
-            reservationRepository.saveAll(inventoryReservationList);
-
-            return ReservationBatchActionResponse.builder()
-                    .orderId(request.getOrderId())
-                    .reservationIds(inventoryReservationList.stream().map(
-                            reservation -> reservation.getId()).collect(Collectors.toList()))
-                    .itemsProcessed(inventoryReservationList.size())
-                    .resultingStatus(ReservationStatus.RELEASED)
-                    .message("All the above reserved items has been released")
+            return ReservationActionResponse.builder()
+                    .reservationId(reservation.getId().toString())
+                    .itemsProcessed(count)
+                    .orderId(reservation.getOrderId().toString())
+                    .status(reservation.getStatus().name())
+                    .message(count>0 ? "Reserve items has been confirmed" : "Given order has been already : "
+                            +reservation.getStatus().name())
                     .build();
+
         } catch (Exception e) {
-            throw new InventoryReservationException("failed to Confirm stock, error : " + e.getMessage());
+            throw new InventoryReservationException("failed to confirm stock, error : " + e.getMessage());
         }
     }
 
 
-    public ReservationBatchActionResponse expireReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
+    /**
+     * This update the status of the reserve expired, in case of when reservation expired either though
+     * payment failure or any condition happen.
+     */
+    @Transactional(rollbackFor = InventoryReservationException.class)
+    public ReservationActionResponse expireReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
         try {
-            List<InventoryReservation> inventoryReservationList =
-                    reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
-                            () -> new ResourceNotFoundException("Order id does not exist")
-                    );
-            for (InventoryReservation inventoryReservation : inventoryReservationList) {
-                if (inventoryReservation.getExpiresAt().isBefore(Instant.now())) {
-                    throw new IllegalStateException("Yet to expire");
+            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Given order does not exist")
+            );
+            int count =0;
+            if (reservation.getStatus() == ReservationStatus.RESERVED && reservation.getExpiresAt().isBefore(Instant.now())) {
+                for(ItemReserve itemReserve : reservation.getItemReserveList()) {
+                   inventoryRepository.releaseStock(itemReserve.getProductId(), itemReserve.getQuantity());
+                    count++;
                 }
-                inventoryReservation.setStatus(ReservationStatus.EXPIRED);
+                reservation.setStatus(ReservationStatus.EXPIRED);
             }
-            reservationRepository.saveAll(inventoryReservationList);
-
-            return ReservationBatchActionResponse.builder()
-                    .orderId(request.getOrderId())
-                    .reservationIds(inventoryReservationList.stream().map(
-                            reservation -> reservation.getId()).collect(Collectors.toList()))
-                    .itemsProcessed(inventoryReservationList.size())
-                    .resultingStatus(ReservationStatus.EXPIRED)
-                    .message("All the above reserved items has been released")
+            return ReservationActionResponse.builder()
+                    .reservationId(reservation.getId().toString())
+                    .itemsProcessed(count)
+                    .orderId(reservation.getOrderId().toString())
+                    .status(reservation.getStatus().name())
+                    .message(count>0 ? "Reserve items has been expired" : "Given order has been already : "
+                            +reservation.getStatus().name())
                     .build();
-        } catch (Exception e) {
-            throw new InventoryReservationException("failed to Confirm stock, error : " + e.getMessage());
+
+        }  catch (Exception e) {
+            throw new InventoryReservationException("failed to expire stock, error : " + e.getMessage());
         }
     }
 

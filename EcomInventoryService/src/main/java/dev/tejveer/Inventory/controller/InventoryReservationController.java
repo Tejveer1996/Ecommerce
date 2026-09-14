@@ -2,7 +2,7 @@ package dev.tejveer.Inventory.controller;
 
 import dev.tejveer.Inventory.dto.ConfirmReserveStockRequest;
 import dev.tejveer.Inventory.dto.ReleaseReserveStockRequest;
-import dev.tejveer.Inventory.dto.ReservationBatchActionResponse;
+import dev.tejveer.Inventory.dto.ReservationActionResponse;
 import dev.tejveer.Inventory.dto.ReservationResponse;
 import dev.tejveer.Inventory.dto.ReserveItemsRequest;
 import dev.tejveer.Inventory.exception.InventoryReservationException;
@@ -70,9 +70,9 @@ public class InventoryReservationController {
     })
     @PostMapping("/release")
     @PreAuthorize("hasRole('SERVICE')")
-    public ResponseEntity<ReservationBatchActionResponse> releaseReserveStock(@RequestBody ReleaseReserveStockRequest request) {
+    public ResponseEntity<ReservationActionResponse> releaseReserveStock(@RequestBody ReleaseReserveStockRequest request) {
         try {
-            ReservationBatchActionResponse response = inventoryReservationService.releaseReserveStock(request);
+            ReservationActionResponse response = inventoryReservationService.releaseReserveStock(request);
             return ResponseEntity.ok(response);
         } catch (InventoryReservationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -90,9 +90,9 @@ public class InventoryReservationController {
     })
     @PostMapping("/expire")
     @PreAuthorize("hasRole('SERVICE')")
-    public ResponseEntity<ReservationBatchActionResponse> expireReserveStock(@RequestBody ReleaseReserveStockRequest request) {
+    public ResponseEntity<ReservationActionResponse> expireReserveStock(@RequestBody ReleaseReserveStockRequest request) {
         try {
-            ReservationBatchActionResponse response = inventoryReservationService.expireReserveStock(request);
+            ReservationActionResponse response = inventoryReservationService.expireReserveStock(request);
             return ResponseEntity.ok(response);
         } catch (InventoryReservationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -110,9 +110,9 @@ public class InventoryReservationController {
     })
     @PostMapping("/confirm")
     @PreAuthorize("hasRole('SERVICE')")
-    public ResponseEntity<ReservationBatchActionResponse> confirmReserveStock(@RequestBody ConfirmReserveStockRequest request) {
+    public ResponseEntity<ReservationActionResponse> confirmReserveStock(@RequestBody ConfirmReserveStockRequest request) {
         try {
-            ReservationBatchActionResponse response = inventoryReservationService.confirmReserveStock(request);
+            ReservationActionResponse response = inventoryReservationService.confirmReserveStock(request);
             return ResponseEntity.ok(response);
         } catch (InventoryReservationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

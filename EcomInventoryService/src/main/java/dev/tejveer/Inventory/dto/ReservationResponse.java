@@ -15,13 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReservationResponse {
     String orderId;
-    List<ReservedItems> reservedItemList;
-
-    @Data
-    @Builder
-    public static class ReservedItems {
-        UUID reservationId;
-        UUID productId;
-        Long quantity;
-    }
+    String reservationId;
+    List<String> reservedItemIds;
 }
