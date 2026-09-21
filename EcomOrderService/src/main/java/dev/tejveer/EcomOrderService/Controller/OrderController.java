@@ -4,6 +4,7 @@ import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.PaymentDTO;
+import dev.tejveer.EcomOrderService.Exception.PriceMismatchException;
 import dev.tejveer.EcomOrderService.Impl.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,6 +54,9 @@ public class OrderController {
         try {
             userId = extractUserId();
             return orderService.createOrder(userId, orderRequestDTO);
+        } catch (PriceMismatchException pme) {
+            log.warn("Price mismatch while placing order for userId : {}, mismatches :: {}", userId, pme.getMismatches());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Price changed for one or more items in your cart.");
         } catch (Exception e) {
             log.error("Error occurred while placing order for userId : {}, error :: {}", userId, e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

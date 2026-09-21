@@ -14,5 +14,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReleaseReserveStockRequest {
     @NotNull(message = "Order id is required")
-    UUID orderId;
+    UUID reservationId;
 }

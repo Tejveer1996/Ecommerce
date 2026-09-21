@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,9 +80,9 @@ public class InventoryReservationService {
      *Release the stock when the customer or system cancel the order.
      */
     @Transactional(rollbackFor = InventoryReservationException.class)
-    public ReservationActionResponse releaseReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
+    public ReservationActionResponse releaseReserveStock(UUID reservationId) throws InventoryReservationException {
         try {
-            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+            InventoryReservation reservation = reservationRepository.findById(reservationId).orElseThrow(
                     () -> new ResourceNotFoundException("Given order does not exist")
             );
             int count =0;

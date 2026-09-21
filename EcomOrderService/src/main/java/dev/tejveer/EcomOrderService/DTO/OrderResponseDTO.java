@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -13,7 +15,7 @@ public class OrderResponseDTO {
     String orderId;
     String userId;
     OrderStatus orderStatus;
-    Double totalAmount;
+    BigDecimal totalAmount;
     String message;
     Integer code;
 }

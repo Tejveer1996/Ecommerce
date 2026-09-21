@@ -1,4 +1,4 @@
-package dev.Tejveer.EcomUserAuthService.DTO;
+package dev.tejveer.EcomOrderService.client.user.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,13 +10,14 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddressResponseDTO {
+public class AddressResponse {
     UUID id;
     String address;
     String city;

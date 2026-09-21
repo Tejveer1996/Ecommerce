@@ -17,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 @Tag(
         name = "Inventory Reservation APIs",
@@ -68,11 +71,11 @@ public class InventoryReservationController {
             @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
             @ApiResponse(responseCode = "404", description = "Reservations Not Found For Order", content = @Content)
     })
-    @PostMapping("/release")
+    @PostMapping("/release/{reservationId}")
     @PreAuthorize("hasRole('SERVICE')")
-    public ResponseEntity<ReservationActionResponse> releaseReserveStock(@RequestBody ReleaseReserveStockRequest request) {
+    public ResponseEntity<ReservationActionResponse> releaseReserveStock(@PathVariable String reservationId) {
         try {
-            ReservationActionResponse response = inventoryReservationService.releaseReserveStock(request);
+            ReservationActionResponse response = inventoryReservationService.releaseReserveStock(UUID.fromString(reservationId));
             return ResponseEntity.ok(response);
         } catch (InventoryReservationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

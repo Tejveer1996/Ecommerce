@@ -1,10 +1,11 @@
-package dev.tejveer.EcomOrderService.client.dto;
+package dev.tejveer.EcomOrderService.client.cart.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public class CartResponse {
         UUID cartItemId;
         UUID productId;
         Integer quantity;
-        Long priceSnapShot;
-        Long subtotal; // priceSnapShot * quantity — computed, not stored
+        BigDecimal priceSnapShot;
+        BigDecimal subtotal; // priceSnapShot * quantity — computed, not stored
     }
 }

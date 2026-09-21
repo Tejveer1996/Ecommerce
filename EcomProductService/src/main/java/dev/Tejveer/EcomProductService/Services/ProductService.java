@@ -2,6 +2,7 @@ package dev.Tejveer.EcomProductService.Services;
 
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAttributeRequest;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductBriefDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -127,6 +129,24 @@ public class ProductService {
     }
 
 
+    public List<ProductBriefDto> getProductById(List<UUID> productIds) throws ResourceNotFoundException {
+        try {
+            List<Product> products = productRepository.findAllById(productIds);
+            return products.stream()
+                    .map(product -> ProductBriefDto.builder()
+                            .productId(product.getId().toString())
+                            .productName(product.getName())
+                            .description(product.getDescription())
+                            .imageUrl(product.getProductImages().getFirst().getImageUrl())
+                            .price(product.getPrice().doubleValue())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Failed to fetch the list of products details");
+        }
+    }
+
+
     public ProductResponseDto getAllProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         Page<ProductResponse> pageData = products.map(
@@ -182,8 +202,8 @@ public class ProductService {
                 .build();
     }
 
-    private Product mapFromAddProductRequest(UUID selleId, Category category, ProductAddRequest request){
-       Product product = Product.builder()
+    private Product mapFromAddProductRequest(UUID selleId, Category category, ProductAddRequest request) {
+        Product product = Product.builder()
                 .name(request.getName())
                 .brand(request.getBrand())
                 .description(request.getDescription())

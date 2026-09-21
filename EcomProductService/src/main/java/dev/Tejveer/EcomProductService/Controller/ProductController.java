@@ -1,6 +1,7 @@
 package dev.Tejveer.EcomProductService.Controller;
 
 import dev.Tejveer.EcomProductService.DTO.Product.ProductAddRequest;
+import dev.Tejveer.EcomProductService.DTO.Product.ProductBriefDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponse;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductResponseDto;
 import dev.Tejveer.EcomProductService.DTO.Product.ProductUpdateRequest;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Tag(
@@ -127,6 +129,24 @@ public class ProductController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @Operation(summary = "Get product list by ids", description = "Fetch products details using its product ids")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Product Found"),
+            @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<List<ProductBriefDto>> getProductById(@RequestBody List<UUID> productIds) {
+        try {
+            return ResponseEntity.ok(productServices.getProductById(productIds));
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Error occurred while getting products :{}, error :: {}", productIds, e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
 
     @Operation(summary = "Get all products", description = "Fetch a paginated list of all products in the catalog")
     @ApiResponses({
