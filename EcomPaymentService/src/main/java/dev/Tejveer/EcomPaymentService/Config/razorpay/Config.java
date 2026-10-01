@@ -1,4 +1,4 @@
-package dev.Tejveer.EcomPaymentService.Config;
+package dev.Tejveer.EcomPaymentService.Config.razorpay;
 
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RazorPayConfig {
+public class Config {
 
     @Value("${razorpay.client.key}")
     private String razorpayClientKey;
