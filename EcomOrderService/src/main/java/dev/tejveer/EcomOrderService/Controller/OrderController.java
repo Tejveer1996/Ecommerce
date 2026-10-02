@@ -84,26 +84,6 @@ public class OrderController {
         }
     }
 
-    @Operation(
-            summary = "Update payment status",
-            description = "Internal callback invoked by the Payment Service after receiving a response from the payment provider, to update the order's payment status. Not intended for direct client use."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Payment Status Updated Successfully"),
-            @ApiResponse(responseCode = "400", description = "Validation Failed", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Order Not Found For User", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)
-    })
-    @PostMapping("/update/paymentstatus/{userId}")
-    public ResponseEntity<String> updatePaymentStatus(@PathVariable String userId, @RequestBody PaymentDTO paymentDTO) {
-        try {
-            orderService.updateOrderPaymentStatus(userId, paymentDTO);
-            return ResponseEntity.ok("Payment status has been updated successfully");
-        } catch (Exception e) {
-            log.error("Error occurred while updating payment status for userId : {}, error :: {}", userId, e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update payment status");
-        }
-    }
 
     private String extractUserId() {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

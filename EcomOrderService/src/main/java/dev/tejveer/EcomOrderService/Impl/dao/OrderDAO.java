@@ -2,6 +2,7 @@ package dev.tejveer.EcomOrderService.Impl.dao;
 
 import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
+import dev.tejveer.EcomOrderService.Model.PaymentStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class OrderDAO {
     private String address;
     private List<OrderItem> orderItems;
     private OrderStatus orderStatus;
+    private PaymentStatus paymentStatus;
     private String transactionId;
     private BigDecimal totalAmount;
 }

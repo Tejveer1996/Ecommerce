@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PaymentDAO {
+public class OrderPaymentUpdateDao {
     String userId;
     String orderId;
     String orderStatus;

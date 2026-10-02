@@ -5,7 +5,7 @@ import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
-import dev.tejveer.EcomOrderService.Impl.dao.PaymentDAO;
+import dev.tejveer.EcomOrderService.Impl.dao.OrderPaymentUpdateDao;
 import dev.tejveer.EcomOrderService.Utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,9 @@ public class OrderStore {
         try {
             int count = 1;
             String itemMetaData = Utils.gson.toJson(orderDAO.getOrderItems());
-            String addressMetaData = Utils.gson.toJson(orderDAO.getAddress());
+            // orderDAO.getAddress() is already a JSON string (serialized in OrderHelper) —
+            // re-serializing it here would double-encode it into a quoted/escaped string.
+            String addressMetaData = orderDAO.getAddress();
             connection = DataSourceUtils.getConnection(dataSource);
             pstmt = connection.prepareStatement(sqlQuery);
             pstmt.setString(count++, orderDAO.getOrderId());
@@ -42,6 +44,7 @@ public class OrderStore {
             pstmt.setString(count++, addressMetaData);
             pstmt.setString(count++, itemMetaData);
             pstmt.setString(count++, orderDAO.getOrderStatus().name());
+            pstmt.setString(count++, orderDAO.getPaymentStatus().name());
             pstmt.setDouble(count++, orderDAO.getTotalAmount().doubleValue());
             int rs = pstmt.executeUpdate();
             log.info("order summary has been successfully inserted into db table order_summary, orderId ::{}", orderDAO.getOrderId());
@@ -143,35 +146,30 @@ public class OrderStore {
     }
 
 
-    public String updatePaymentStatus(PaymentDAO paymentDAO) throws Exception {
+    public int updatePaymentStatus(OrderPaymentUpdateDao orderUpdate) throws Exception {
         String sqlQuery = "UPDATE order_summary SET transaction_id = ? , order_status = ? ,payment_status = ? , payment_time_stamp = ? " +
-                "WHERE order_id = ? AND user_id = ?";
+                "WHERE order_id = ?";
         PreparedStatement pstmt = null;
         Connection connection = null;
         try {
             connection = DataSourceUtils.getConnection(dataSource);
             pstmt = connection.prepareStatement(sqlQuery);
-            pstmt.setString(1, paymentDAO.getTransactionId());
-            pstmt.setString(2, paymentDAO.getOrderStatus());
-            pstmt.setString(3, paymentDAO.getPaymentStatus());
-            pstmt.setString(4, paymentDAO.getPaymentTimeStamp());
-            pstmt.setString(5, paymentDAO.getOrderId());
-            pstmt.setString(6, paymentDAO.getUserId());
-            ResultSet rs = pstmt.executeQuery();
-            String orderId = null;
-            if (rs.next()) {
-                orderId = rs.getString(1);
-            }
-            log.info("order summary has been successfully inserted into db table order_summary, orderId ::{}", orderId);
-            return orderId;
+            pstmt.setString(1, orderUpdate.getTransactionId());
+            pstmt.setString(2, orderUpdate.getOrderStatus());
+            pstmt.setString(3, orderUpdate.getPaymentStatus());
+            pstmt.setString(4, orderUpdate.getPaymentTimeStamp());
+            pstmt.setString(5, orderUpdate.getOrderId());
+            int rowsAffected = pstmt.executeUpdate();
+            log.info("order summary has been successfully inserted into db table order_summary, orderId ::{}", orderUpdate.getOrderId());
+            return rowsAffected;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (connection != null) {
-                DataSourceUtils.releaseConnection(connection, dataSource);
-            }
             if (pstmt != null) {
                 pstmt.close();
+            }
+            if (connection != null) {
+                DataSourceUtils.releaseConnection(connection, dataSource);
             }
         }
     }

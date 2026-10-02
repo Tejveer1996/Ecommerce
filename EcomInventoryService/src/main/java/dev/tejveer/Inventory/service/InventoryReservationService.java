@@ -109,13 +109,13 @@ public class InventoryReservationService {
 
 
     /**
-     * Confirm the status of the stock, when the payment get successfull, to maintain the idempotency
+     * Confirm the status of the stock, when the payment get successfully, to maintain the idempotency
      * of webhook it first checks the status for update the status.
      */
     @Transactional(rollbackFor = InventoryReservationException.class)
     public ReservationActionResponse confirmReserveStock(ConfirmReserveStockRequest request) throws InventoryReservationException {
         try {
-            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+            InventoryReservation reservation = reservationRepository.findById(request.getReservationId()).orElseThrow(
                     () -> new ResourceNotFoundException("Given order does not exist")
             );
             int count =0;
@@ -148,7 +148,7 @@ public class InventoryReservationService {
     @Transactional(rollbackFor = InventoryReservationException.class)
     public ReservationActionResponse expireReserveStock(ReleaseReserveStockRequest request) throws InventoryReservationException {
         try {
-            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
+            InventoryReservation reservation = reservationRepository.findById(request.getReservationId()).orElseThrow(
                     () -> new ResourceNotFoundException("Given order does not exist")
             );
             int count =0;

@@ -11,8 +11,9 @@ import dev.tejveer.EcomOrderService.Exception.OrderNotFoundException;
 import dev.tejveer.EcomOrderService.Exception.PriceMismatchException;
 import dev.tejveer.EcomOrderService.Exception.UpdateOrderException;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
-import dev.tejveer.EcomOrderService.Impl.dao.PaymentDAO;
+import dev.tejveer.EcomOrderService.Impl.dao.OrderPaymentUpdateDao;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
+import dev.tejveer.EcomOrderService.Model.PaymentStatus;
 import dev.tejveer.EcomOrderService.Store.OrderStore;
 import dev.tejveer.EcomOrderService.Utils.ExecutionService;
 import dev.tejveer.EcomOrderService.client.cart.CartFeignClient;
@@ -23,9 +24,13 @@ import dev.tejveer.EcomOrderService.client.inventory.dto.InventoryReserveRespons
 import dev.tejveer.EcomOrderService.client.product.ProductFeignClient;
 import dev.tejveer.EcomOrderService.client.product.dto.ProductBriefDto;
 import dev.tejveer.EcomOrderService.client.user.UserFeignClient;
+import dev.tejveer.EcomOrderService.kafka.listener.dto.OrderStatusEventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,12 +61,19 @@ public class OrderService {
     public OrderResponseDTO createOrder(String userId, OrderRequestDTO orderDTO) throws CreateOrderException {
         InventoryReserveResponse inventory = null;
         try {
-            CartResponse cart = cartFeignClient.getCartByUserId(userId);
+            CartResponse cart = cartFeignClient.getCartByUserId();
 
             UUID orderId = UUID.randomUUID();
+            List<InventoryReserveRequest.Item> reserveItems = cart.getItems().stream()
+                    .map(cartItem -> InventoryReserveRequest.Item.builder()
+                            .productId(cartItem.getProductId())
+                            .quantity(cartItem.getQuantity().longValue())
+                            .build())
+                    .toList();
             CompletableFuture<InventoryReserveResponse> inventoryReserveResponse = CompletableFuture.supplyAsync(
                     () -> inventoryFeignClient.reserveStock(InventoryReserveRequest.builder()
                             .orderId(orderId)
+                            .items(reserveItems)
                             .build()), executionService.orderTaskExecutor());
 
             CompletableFuture<List<ProductBriefDto>> productBriefDtoList = CompletableFuture.supplyAsync(
@@ -119,18 +131,18 @@ public class OrderService {
         }
     }
 
-    public void updateOrderPaymentStatus(String userId, PaymentDTO paymentDTO) throws UpdateOrderException {
-        PaymentDAO paymentDAO = PaymentDAO.builder()
-                .userId(userId)
-                .orderId(paymentDTO.getOrderId())
-                .orderStatus(paymentDTO.getPaymentStatus().name().equalsIgnoreCase("failed") ? OrderStatus.IN_PROGRESS.name() :
-                        OrderStatus.CONFIRMED.name())
-                .paymentStatus(paymentDTO.getPaymentStatus().name())
-                .transactionId(paymentDTO.getTransactionId())
-                .paymentTimeStamp(paymentDTO.getTimeStamp())
+    public void updateOrderPaymentStatus(OrderStatusEventDto orderStatusEventDto) throws UpdateOrderException {
+        OrderPaymentUpdateDao orderPaymentUpdateDao = OrderPaymentUpdateDao.builder()
+                .orderId(orderStatusEventDto.getOrderId())
+                .orderStatus(orderStatusEventDto.getStatus().equalsIgnoreCase("success") ? OrderStatus.CONFIRMED.name()
+                        : OrderStatus.IN_PROGRESS.name())
+                .paymentStatus(orderStatusEventDto.getStatus().equalsIgnoreCase("success") ? PaymentStatus.SUCCESS.name()
+                                : PaymentStatus.PENDING.name())
+                .transactionId(orderStatusEventDto.getTransactionId())
+                .paymentTimeStamp(Instant.ofEpochMilli(orderStatusEventDto.getPaymentTimeStamp()).toString())
                 .build();
         try {
-            orderStore.updatePaymentStatus(paymentDAO);
+            orderStore.updatePaymentStatus(orderPaymentUpdateDao);
         } catch (Exception e) {
             throw new UpdateOrderException("Failed to update the payment status", e);
         }
