@@ -3,7 +3,6 @@ package dev.tejveer.EcomOrderService.Impl.service;
 import dev.tejveer.EcomOrderService.DTO.OrderListResponseDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
 import dev.tejveer.EcomOrderService.DTO.OrderResponseDTO;
-import dev.tejveer.EcomOrderService.DTO.PaymentDTO;
 import dev.tejveer.EcomOrderService.DTO.PriceMismatchDto;
 import dev.tejveer.EcomOrderService.Exception.CreateOrderException;
 import dev.tejveer.EcomOrderService.Exception.OrderListNotFoundException;
@@ -24,13 +23,13 @@ import dev.tejveer.EcomOrderService.client.inventory.dto.InventoryReserveRespons
 import dev.tejveer.EcomOrderService.client.product.ProductFeignClient;
 import dev.tejveer.EcomOrderService.client.product.dto.ProductBriefDto;
 import dev.tejveer.EcomOrderService.client.user.UserFeignClient;
-import dev.tejveer.EcomOrderService.kafka.listener.dto.OrderStatusEventDto;
+import dev.tejveer.EcomOrderService.kafka.EventProducer;
+import dev.tejveer.EcomOrderService.kafka.dto.OrderConfirmEventDto;
+import dev.tejveer.EcomOrderService.kafka.dto.OrderStatusEventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +42,16 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private final OrderStore orderStore;
+    private final EventProducer eventProducer;
     private final UserFeignClient userFeignClient;
     private final CartFeignClient cartFeignClient;
     private final InventoryFeignClient inventoryFeignClient;
     private final ProductFeignClient productFeignClient;
     private final ExecutionService executionService;
 
-    public OrderService(OrderStore orderStore, UserFeignClient userFeignClient, CartFeignClient cartFeignClient, InventoryFeignClient inventoryFeignClient, ProductFeignClient productFeignClient, ExecutionService executionService) {
+    public OrderService(OrderStore orderStore, EventProducer eventProducer, UserFeignClient userFeignClient, CartFeignClient cartFeignClient, InventoryFeignClient inventoryFeignClient, ProductFeignClient productFeignClient, ExecutionService executionService) {
         this.orderStore = orderStore;
+        this.eventProducer = eventProducer;
         this.userFeignClient = userFeignClient;
         this.cartFeignClient = cartFeignClient;
         this.inventoryFeignClient = inventoryFeignClient;
@@ -61,19 +62,18 @@ public class OrderService {
     public OrderResponseDTO createOrder(String userId, OrderRequestDTO orderDTO) throws CreateOrderException {
         InventoryReserveResponse inventory = null;
         try {
-            CartResponse cart = cartFeignClient.getCartByUserId();
+            CartResponse cart = cartFeignClient.getCartByUserId(userId);
 
             UUID orderId = UUID.randomUUID();
-            List<InventoryReserveRequest.Item> reserveItems = cart.getItems().stream()
-                    .map(cartItem -> InventoryReserveRequest.Item.builder()
-                            .productId(cartItem.getProductId())
-                            .quantity(cartItem.getQuantity().longValue())
-                            .build())
-                    .toList();
             CompletableFuture<InventoryReserveResponse> inventoryReserveResponse = CompletableFuture.supplyAsync(
                     () -> inventoryFeignClient.reserveStock(InventoryReserveRequest.builder()
                             .orderId(orderId)
-                            .items(reserveItems)
+                            .items(cart.getItems().stream()
+                                    .map(cartItem -> InventoryReserveRequest.Item.builder()
+                                            .productId(cartItem.getProductId())
+                                            .quantity(cartItem.getQuantity().longValue())
+                                            .build())
+                                    .collect(Collectors.toList()))
                             .build()), executionService.orderTaskExecutor());
 
             CompletableFuture<List<ProductBriefDto>> productBriefDtoList = CompletableFuture.supplyAsync(
@@ -137,12 +137,15 @@ public class OrderService {
                 .orderStatus(orderStatusEventDto.getStatus().equalsIgnoreCase("success") ? OrderStatus.CONFIRMED.name()
                         : OrderStatus.IN_PROGRESS.name())
                 .paymentStatus(orderStatusEventDto.getStatus().equalsIgnoreCase("success") ? PaymentStatus.SUCCESS.name()
-                                : PaymentStatus.PENDING.name())
+                        : PaymentStatus.PENDING.name())
                 .transactionId(orderStatusEventDto.getTransactionId())
                 .paymentTimeStamp(Instant.ofEpochMilli(orderStatusEventDto.getPaymentTimeStamp()).toString())
                 .build();
         try {
             orderStore.updatePaymentStatus(orderPaymentUpdateDao);
+            eventProducer.publishOrderConfirmedEvent(OrderConfirmEventDto.builder()
+                    .orderId(orderStatusEventDto.getOrderId())
+                    .build());
         } catch (Exception e) {
             throw new UpdateOrderException("Failed to update the payment status", e);
         }
@@ -158,7 +161,7 @@ public class OrderService {
         }
     }
 
-    private void priceMatchCartAndProduct(List<ProductBriefDto> products, CartResponse cart){
+    private void priceMatchCartAndProduct(List<ProductBriefDto> products, CartResponse cart) {
         Map<String, ProductBriefDto> productBriefDtoMap = products.stream()
                 .collect(Collectors.toMap(ProductBriefDto::getProductId, Function.identity()));
 

@@ -73,6 +73,9 @@ public class RazorPayServiceImpl implements IPaymentService {
             String orderId = webhookRequest.getPayload().getPaymentLink().getEntity().getReferenceId();
             PaymentLinkStatus paymentStatus = webhookRequest.getPayload().getPaymentLink().getEntity().getStatus();
 
+            String transactionId = webhookRequest.getPayload().getPayment().getEntity().getId();
+            BigDecimal amount = BigDecimal.valueOf(webhookRequest.getPayload().getPayment().getEntity().getAmount(), 2100);
+
             Payment savedPayment = paymentRepository.fetchByPaymentLinkIdAndOrderId(paymentLinkId, orderId).orElseThrow(
                     () -> new ResourceNotFound("Failed to find payment row for paymentLinkId : " + paymentLinkId)
             );
@@ -82,16 +85,7 @@ public class RazorPayServiceImpl implements IPaymentService {
                 return;
             }
 
-            // payload.payment is null on PAYMENT_LINK_CANCELLED / PAYMENT_LINK_EXPIRED (see
-            // WebhookPayload's own field comment) — those events carry only payment_link, so
-            // reading payload.getPayment().getEntity() unconditionally NPEs on every cancel/expiry
-            // webhook. Only PAID events have a payment entity to read transactionId/amount from.
-            if (webhookEvent == WebhookEvent.PAYMENT_LINK_PAID) {
-                String transactionId = webhookRequest.getPayload().getPayment().getEntity().getId();
-                // scale is 2 (paise -> rupees), not 2100 — was a typo
-                BigDecimal amount = BigDecimal.valueOf(webhookRequest.getPayload().getPayment().getEntity().getAmount(), 2);
-                savedPayment.setTransactionId(transactionId);
-            }
+            savedPayment.setTransactionId(transactionId);
 
             PaymentStatus newStatus = switch (webhookEvent) {
                 case PAYMENT_LINK_PAID -> PaymentStatus.SUCCESS;

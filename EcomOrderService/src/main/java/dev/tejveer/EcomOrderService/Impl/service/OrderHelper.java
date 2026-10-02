@@ -4,7 +4,6 @@ import dev.tejveer.EcomOrderService.DTO.OrderRequestDTO;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
 import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
-import dev.tejveer.EcomOrderService.Model.PaymentStatus;
 import dev.tejveer.EcomOrderService.Utils.Utils;
 import dev.tejveer.EcomOrderService.client.cart.dto.CartResponse;
 import dev.tejveer.EcomOrderService.client.product.dto.ProductBriefDto;
@@ -39,7 +38,6 @@ public class OrderHelper {
                 .orderId(orderId.toString())
                 .userId(userId)
                 .orderStatus(OrderStatus.IN_PROGRESS)
-                .paymentStatus(PaymentStatus.PENDING)
                 .address(Utils.gson.toJson(address))
                 .orderItems(orderItems)
                 .totalAmount(totalAmount)

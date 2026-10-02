@@ -1,4 +1,4 @@
-package dev.tejveer.EcomOrderService.kafka.listener.dto;
+package dev.tejveer.EcomOrderService.kafka.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

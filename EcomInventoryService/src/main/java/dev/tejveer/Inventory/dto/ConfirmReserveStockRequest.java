@@ -13,6 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConfirmReserveStockRequest {
-    @NotNull(message = "Reservation id is required")
-    UUID reservationId;
+    @NotNull(message = "Order id is required")
+    UUID orderId;
 }

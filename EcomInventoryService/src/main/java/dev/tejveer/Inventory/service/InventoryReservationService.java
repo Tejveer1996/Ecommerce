@@ -115,7 +115,7 @@ public class InventoryReservationService {
     @Transactional(rollbackFor = InventoryReservationException.class)
     public ReservationActionResponse confirmReserveStock(ConfirmReserveStockRequest request) throws InventoryReservationException {
         try {
-            InventoryReservation reservation = reservationRepository.findById(request.getReservationId()).orElseThrow(
+            InventoryReservation reservation = reservationRepository.findByOrderId(request.getOrderId()).orElseThrow(
                     () -> new ResourceNotFoundException("Given order does not exist")
             );
             int count =0;

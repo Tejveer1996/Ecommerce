@@ -19,7 +19,6 @@ public class InventoryReserveRequest {
     @Data
     @Builder
     public static class Item {
-        UUID sellerId;
         UUID productId;
         Long quantity;
     }

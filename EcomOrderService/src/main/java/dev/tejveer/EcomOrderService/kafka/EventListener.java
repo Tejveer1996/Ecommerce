@@ -1,8 +1,8 @@
-package dev.tejveer.EcomOrderService.kafka.listener;
+package dev.tejveer.EcomOrderService.kafka;
 
 import dev.tejveer.EcomOrderService.Exception.UpdateOrderException;
 import dev.tejveer.EcomOrderService.Impl.service.OrderService;
-import dev.tejveer.EcomOrderService.kafka.listener.dto.OrderStatusEventDto;
+import dev.tejveer.EcomOrderService.kafka.dto.OrderStatusEventDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

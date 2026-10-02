@@ -34,9 +34,7 @@ public class OrderStore {
         try {
             int count = 1;
             String itemMetaData = Utils.gson.toJson(orderDAO.getOrderItems());
-            // orderDAO.getAddress() is already a JSON string (serialized in OrderHelper) —
-            // re-serializing it here would double-encode it into a quoted/escaped string.
-            String addressMetaData = orderDAO.getAddress();
+            String addressMetaData = Utils.gson.toJson(orderDAO.getAddress());
             connection = DataSourceUtils.getConnection(dataSource);
             pstmt = connection.prepareStatement(sqlQuery);
             pstmt.setString(count++, orderDAO.getOrderId());
@@ -44,7 +42,6 @@ public class OrderStore {
             pstmt.setString(count++, addressMetaData);
             pstmt.setString(count++, itemMetaData);
             pstmt.setString(count++, orderDAO.getOrderStatus().name());
-            pstmt.setString(count++, orderDAO.getPaymentStatus().name());
             pstmt.setDouble(count++, orderDAO.getTotalAmount().doubleValue());
             int rs = pstmt.executeUpdate();
             log.info("order summary has been successfully inserted into db table order_summary, orderId ::{}", orderDAO.getOrderId());
