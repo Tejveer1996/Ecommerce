@@ -6,6 +6,7 @@ import dev.tejveer.EcomOrderService.Model.OrderItem;
 import dev.tejveer.EcomOrderService.Model.OrderStatus;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderDAO;
 import dev.tejveer.EcomOrderService.Impl.dao.OrderPaymentUpdateDao;
+import dev.tejveer.EcomOrderService.Model.PaymentStatus;
 import dev.tejveer.EcomOrderService.Utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class OrderStore {
             pstmt.setString(count++, addressMetaData);
             pstmt.setString(count++, itemMetaData);
             pstmt.setString(count++, orderDAO.getOrderStatus().name());
+            pstmt.setString(count++, PaymentStatus.PENDING.toString());
             pstmt.setDouble(count++, orderDAO.getTotalAmount().doubleValue());
             int rs = pstmt.executeUpdate();
             log.info("order summary has been successfully inserted into db table order_summary, orderId ::{}", orderDAO.getOrderId());

@@ -16,7 +16,7 @@ public class EventListener {
     private final InventoryReservationService inventoryReservationService;
 
     @KafkaListener(
-            topics = "${app.kafka.topic.order-confirm-events}",
+            topics = "${app.kafka.topic.order-confirmed-events}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void orderConfirmListener(OrderConfirmEventDto orderConfirmEventDto) throws InventoryReservationException {
