@@ -135,7 +135,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Product Found"),
             @ApiResponse(responseCode = "404", description = "Product Not Found", content = @Content)
     })
-    @GetMapping
+    @PostMapping("/brief")
     public ResponseEntity<List<ProductBriefDto>> getProductById(@RequestBody List<UUID> productIds) {
         try {
             return ResponseEntity.ok(productServices.getProductById(productIds));

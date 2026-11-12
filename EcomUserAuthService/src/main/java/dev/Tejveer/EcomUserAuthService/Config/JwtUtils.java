@@ -53,12 +53,14 @@ public class JwtUtils {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         claims.put("roles", user.getRoles().stream().map(Roles::name).collect(Collectors.toList()));
+        claims.put("type","accessToken");
         return createToken(claims, user.getId().toString());
     }
 
     public TokenDetails generateRefreshToken(User user) throws Exception {
         String token = Jwts.builder()
                 .subject(user.getId().toString())
+                .claims(Map.of("type", "refreshToken"))
                 .signWith(getPrivateKey(), Jwts.SIG.RS256)
                 .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRY))
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -111,29 +113,17 @@ public class JwtUtils {
                 .parseSignedClaims(refreshToken)
                 .getPayload();
         UUID userId = UUID.fromString(claims.getSubject());
-        if (isTokenExpired(claims.getExpiration()) || !userRepository.existsById(userId)) {
+        if (isTokenExpired(claims.getExpiration()) || !userRepository.existsById(userId) ||
+                claims.get("type").equals("refreshToken")) {
             throw new IllegalArgumentException("Invalid credentials");
         }
         return claims.getSubject();
     }
 
-    //
-//    public boolean validateToken(String token, UserDetails userDetails) {
-//        String userName = extractUserName(token);
-//        return (userName.equals(userDetails.getUsername())) && isTokenExpired(token);
-//    }
-//
     private boolean isTokenExpired(Date expiryDate) {
         return expiryDate.before(new Date());
     }
 
-//    private Date extractExpiration(String token) {
-//        return extractClaims(token, Claims::getExpiration);
-//    }
-//
-//    public String extractUserId(String token) {
-//        return extractClaims(token, Claims::getSubject);
-//    }
 
     private <T> T extractClaims(String token, Function<Claims, T> claimResolver) throws Exception {
         Claims claims = extractAllClaims(token);
